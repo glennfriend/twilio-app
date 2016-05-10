@@ -1,0 +1,7 @@
+{
+  "devDependencies": {
+    "gulp": "^3.*",
+    "bootstrap": "^3.*",
+    "jquery": "^2.2.*"
+  }
+}
