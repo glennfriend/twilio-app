@@ -1,6 +1,8 @@
 <?php
 namespace App\Controllers;
 
+use App\Module\View\ViewHelper as ViewHelper;
+
 /**
  *
  */
@@ -113,11 +115,11 @@ class BaseController
         // default layout
         $layout = di('view')->getLayout();
         if (!$layout) {
-            $layout = \ViewHelper::get('_global.layout.public');
+            $layout = ViewHelper::get('_global.layout.public');
             di('view')->setLayout($layout);
         }
 
-        $template = \ViewHelper::get($templateDotName);
+        $template = ViewHelper::get($templateDotName);
         if (!file_exists($template)) {
 
             // 如果找不到 template
