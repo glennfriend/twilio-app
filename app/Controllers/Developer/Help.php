@@ -1,11 +1,12 @@
 <?php
-namespace App\Http\Controllers;
-use SlimManager;
+namespace App\Controllers\Developer;
+
+use App\Controllers\AdminPageController;
 
 /**
  *
  */
-class Help extends PublicyController
+class Help extends AdminPageController
 {
 
     // --------------------------------------------------------------------------------
@@ -13,7 +14,7 @@ class Help extends PublicyController
     // --------------------------------------------------------------------------------
     protected function help()
     {
-        $routes = SlimManager::getRouter()->getRoutes();
+        $routes = \SlimManager::getRouter()->getRoutes();
         $urlPrefix = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_NAME'];
         $show = [];
         $index = 0;
@@ -59,7 +60,6 @@ class Help extends PublicyController
     private function isAllowPattern($pattern)
     {
         switch ($pattern) {
-            case '/fb-callback':
             case '/help':
             return false;
         }
@@ -72,7 +72,7 @@ class Help extends PublicyController
     protected function info()
     {
         echo 'Session: ';
-        html( di('session')->getAll() );
+        pr( di('session')->getAll() );
 
         table([
             ['Current:'        , date('Y-m-d H:i:s')],
