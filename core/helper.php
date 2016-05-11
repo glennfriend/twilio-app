@@ -109,7 +109,7 @@ function cc()
 function getParam($key, $defaultValue=null)
 {
     if (isCli()) {
-        return CliManager::get($key);
+        return App\Module\Console\CliManager::get($key);
     }
     else {
         return Bridge\Input::getParam($key, $defaultValue);
@@ -208,7 +208,7 @@ function table(Array $rows, $headers=null)
         if (null === $headers) {
             $headers = array_keys($rows[0]);
         }
-        echo ConsoleHelper::table( $headers, $rows );
+        echo App\Module\Console\ConsoleHelper::table( $headers, $rows );
     }
     else {
         if ($rows) {

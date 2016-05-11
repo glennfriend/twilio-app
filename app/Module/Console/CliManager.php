@@ -1,4 +1,5 @@
 <?php
+namespace App\Module\Console;
 
 class CliManager
 {

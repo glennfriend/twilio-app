@@ -1,4 +1,5 @@
 <?php
+namespace App\Module\Console;
 use Symfony\Component\Console as SymfontConsole;
 
 /**

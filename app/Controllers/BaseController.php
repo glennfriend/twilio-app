@@ -1,7 +1,9 @@
 <?php
 namespace App\Controllers;
 
-use App\Module\View\ViewHelper as ViewHelper;
+use Bridge\Input;
+use App\Module\Console\CliManager;
+use App\Module\View\ViewHelper;
 
 /**
  *
@@ -32,11 +34,11 @@ class BaseController
         di('view')->init();
 
         if (isCli()) {
-            \CliManager::init($argv);
+            CliManager::init($argv);
         }
         else {
             \SlimManager::init($app, $controllerArgs);
-            \Bridge\Input::init($controllerArgs);
+            Input::init($controllerArgs);
         }
 
         // 如果有回傳值, 則不往下執行
