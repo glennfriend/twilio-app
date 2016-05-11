@@ -7,11 +7,8 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'BaseObject' => $baseDir . '/../core/library/BaseObject.php',
-    'CliManager' => $baseDir . '/../core/library/CliManager.php',
     'CommandLine' => $vendorDir . '/pwfisher/command-line-php/CommandLine.php',
     'ConfigManager' => $baseDir . '/../core/library/ConfigManager.php',
-    'ConsoleHelper' => $baseDir . '/../core/library/ConsoleHelper.php',
-    'ErrorSupportHelper' => $baseDir . '/../core/library/ErrorSupportHelper.php',
     'Nette\\ArgumentOutOfRangeException' => $vendorDir . '/nette/utils/src/Utils/exceptions.php',
     'Nette\\DeprecatedException' => $vendorDir . '/nette/utils/src/Utils/exceptions.php',
     'Nette\\DirectoryNotFoundException' => $vendorDir . '/nette/utils/src/Utils/exceptions.php',
@@ -57,11 +54,8 @@ return array(
     'Nette\\Utils\\Strings' => $vendorDir . '/nette/utils/src/Utils/Strings.php',
     'Nette\\Utils\\UnknownImageFileException' => $vendorDir . '/nette/utils/src/Utils/exceptions.php',
     'Nette\\Utils\\Validators' => $vendorDir . '/nette/utils/src/Utils/Validators.php',
-    'PackageSettingBase' => $baseDir . '/../core/library/PackageSettingBase.php',
     'ProjectHelper' => $baseDir . '/../core/library/ProjectHelper.php',
-    'SlimConfigHelper' => $baseDir . '/../core/library/__SlimConfigHelper.php',
     'SlimManager' => $baseDir . '/../core/library/SlimManager.php',
-    'ViewHelper' => $baseDir . '/../core/library/ViewHelper.php',
     'ZendModel' => $baseDir . '/../core/library/ZendModel.php',
     'ZendModelWhiteListHelper' => $baseDir . '/../core/library/ZendModelWhiteListHelper.php',
 );
