@@ -1,5 +1,7 @@
 <?php
 
+use App\Module\Output\ErrorSupportHelper;
+
 /**
  *  建立一個 framework 基本的封裝
  */
