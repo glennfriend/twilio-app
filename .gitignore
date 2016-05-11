@@ -13,6 +13,7 @@ npm-debug.log
 #   framework
 # ------------------------------------------------------------
 var/cache/*
+var/error-report/*.txt
 var/session/sess_*
 var/*.log
 var/*.ini
