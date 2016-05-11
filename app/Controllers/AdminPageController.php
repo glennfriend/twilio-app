@@ -1,7 +1,7 @@
 <?php
 namespace App\Controllers;
 
-use App\Package\Identity\UserManager as UserManager;
+use App\Module\Identity\UserManager as UserManager;
 
 /**
  *

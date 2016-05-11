@@ -88,7 +88,7 @@ class BaseController
 
 
         // url
-        $di->register('url', 'App\Package\HomeUrlManager');
+        $di->register('url', 'App\Module\Url\HomeUrlManager');
         $di->get('url')->init([
             'basePath'  =>  conf('app.path'),
             'baseUrl'   =>  conf('home.base.url'),

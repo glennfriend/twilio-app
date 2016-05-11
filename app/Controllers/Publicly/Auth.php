@@ -2,7 +2,7 @@
 namespace App\Controllers\Publicly;
 
 use App\Controllers\PublicyController;
-use App\Package\Identity\UserIdentity as UserIdentity;
+use App\Module\Identity\UserIdentity as UserIdentity;
 use Bridge\Input;
 
 /**

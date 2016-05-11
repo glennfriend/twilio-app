@@ -1,5 +1,5 @@
 <?php
-namespace App\Package;
+namespace App\Module\Url;
 
 /**
  *  路徑管理
