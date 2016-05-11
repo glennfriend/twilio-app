@@ -1,8 +1,8 @@
 <?php
 
     $basePath = dirname(__DIR__);
-    require_once $basePath . '/app/bootstrap.php';
-    initialize($basePath, 'queue');
+    require_once $basePath . '/core/bootstrap.php';
+    initialize($basePath);
 
     pr('Gearman version: '. gearman_version());
 
