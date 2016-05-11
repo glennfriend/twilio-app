@@ -1,0 +1,11 @@
+User-agent: *
+Disallow: /*.txt
+Disallow: /*.doc
+Disallow: /*.docx
+Disallow: /*.xls
+Disallow: /*.xlsx
+Disallow: /*.ppt
+Disallow: /*.pptx
+Disallow: /*.pdf
+
+Disallow: /media/

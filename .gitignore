@@ -18,5 +18,5 @@ var/session/sess_*
 var/*.log
 var/*.ini
 var/*.txt
-app/config/*.php
+core/config/*.php
 home/media/*

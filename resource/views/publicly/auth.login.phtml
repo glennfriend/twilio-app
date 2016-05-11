@@ -1,0 +1,76 @@
+<?php
+
+    function getColorsByServerInfo()
+    {
+        $encode = sha1($_SERVER['SERVER_NAME']);
+        $color1 = hexdec( substr($encode, 0,7) )/1052688;
+        $color2 = hexdec( substr($encode, 7,7) )/1052688;
+        $color3 = hexdec( substr($encode,14,7) )/1052688;
+        $color4 = hexdec( substr($encode,21,7) )/1052688;
+        $color5 = hexdec( substr($encode,28,7) )/1052688;
+        $color6 = hexdec( substr($encode,35,7) )/1052688;
+        return Array(
+            0 => sprintf("#%02s%02s%02s",dechex($color1),dechex($color2),dechex($color3)),
+            1 => sprintf("#%02s%02s%02s",dechex($color4),dechex($color5),dechex($color6)),
+        );
+    }
+    $colors = getColorsByServerInfo();
+
+    // page title
+    //$this->pageTitle = Yii::app()->name;
+    $projectName = conf('app.project.name');
+
+?>
+
+<style type="text/css">
+    .especialColor {
+        background-image:      -ms-linear-gradient(left, <?php echo $colors[0]; ?> 0%, <?php echo $colors[1]; ?> 100%); /* IE10 */
+        background-image:     -moz-linear-gradient(left, <?php echo $colors[0]; ?> 0%, <?php echo $colors[1]; ?> 100%); /* Mozilla Firefox */
+        background-image:       -o-linear-gradient(left, <?php echo $colors[0]; ?> 0%, <?php echo $colors[1]; ?> 100%); /* Opera */
+        background-image:          linear-gradient(left, <?php echo $colors[0]; ?> 0%, <?php echo $colors[1]; ?> 100%); /* Proposed W3C Markup */
+        background-image:  -webkit-linear-gradient(left, <?php echo $colors[0]; ?> 0%, <?php echo $colors[1]; ?> 100%); /* Webkit (Chrome 11+) */
+        background-image: -webkit-gradient(linear, left top, left bottom, from(0, <?php echo $colors[0]; ?>), to(1, <?php echo $colors[1]; ?>)); /* Webkit (Safari/Chrome 10) */
+    }
+
+    .form-signin {
+        max-width: 400px;
+        margin: 0 auto;
+    }
+</style>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('input[name=account]').focus();
+    });
+</script>
+
+<section id="form">
+
+    <h1><?php echo $projectName; ?></h1>
+    <hr style="height:10px" class="especialColor" />
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <form class="well" method="post">
+            <fieldset class="form-signin">
+
+                <div class="form-group">
+                    <input type="text" class="form-control" name="account" value="<?php echo cc('escape', $account); ?>" placeholder="Account">
+                    <p class="help-block"></p>
+                </div>
+
+                <div class="form-group">
+                    <input type="Password" class="form-control" name="password" placeholder="Password">
+                    <p class="help-block"></p>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block">Log In</button>
+
+            </fieldset>
+            </form>
+        </div>
+    </div>
+
+</section>
+
