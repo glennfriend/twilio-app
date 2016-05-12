@@ -5,15 +5,14 @@ var gulp = require("gulp");
  */
 gulp.task('buildHomeAssets', function () {
     gulp.src('./node_modules/bootstrap/dist/**')    .pipe(gulp.dest("../home/assets/bootstrap/"));
-    gulp.src('./node_modules/jquery/dist/*')        .pipe(gulp.dest("../home/assets/jquery/"));
 });
 
 /**
  *  back-end resource
  */
 gulp.task('buildAdminAssets', function () {
-    gulp.src('./node_modules/bootstrap/dist/**')    .pipe(gulp.dest("../home/admin/assets/bootstrap/"));
-    gulp.src('./node_modules/jquery/dist/*')        .pipe(gulp.dest("../home/admin/assets/jquery/"));
+    gulp.src('./node_modules/bootstrap-v4-dev/dist/**') .pipe(gulp.dest("../home/admin/assets/bootstrap/"));
+    gulp.src('./node_modules/jquery/dist/*')            .pipe(gulp.dest("../home/admin/assets/jquery/"));
 });
 
 // --------------------------------------------------------------------------------
