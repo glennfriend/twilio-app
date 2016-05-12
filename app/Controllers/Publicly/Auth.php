@@ -32,6 +32,7 @@ class Auth extends PublicyController
             }
             else {
                 // 帳號或密碼錯誤
+                // TODO: 未加入 FormMessageManager
                 echo 'The password you entered is invalid. Check the field highlighted below and try again.';
                 exit;
                 FormMessageManager::addErrorResultMessage('The password you entered is invalid. Check the field highlighted below and try again.');
@@ -41,6 +42,15 @@ class Auth extends PublicyController
         $this->render('publicly.auth.login', Array(
             'account' => $account,
         ));
+    }
+
+    /**
+     *
+     */
+    protected function logout()
+    {
+        UserIdentity::logout();
+        return redirect('/');
     }
 
 }

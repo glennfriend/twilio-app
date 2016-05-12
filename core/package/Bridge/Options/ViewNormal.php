@@ -85,7 +85,7 @@ class ViewNormal
         }
 
         $output = str_replace("{{content}}", $content, $layoutTemplate);
-        echo $output;
+        return $output;
     }
 
 }

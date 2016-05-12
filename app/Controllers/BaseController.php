@@ -42,6 +42,12 @@ class BaseController
         }
 
         // 如果有回傳值, 則不往下執行
+        $result = $this->initBefore();
+        if (null !== $result) {
+            return $result;
+        }
+
+        // 如果有回傳值, 則不往下執行
         $result = $this->init();
         if (null !== $result) {
             return $result;
@@ -54,9 +60,17 @@ class BaseController
     /**
      *  you can rewrite in extend
      */
+    protected function initBefore()
+    {
+        // 僅供 extend controller rewrite
+    }
+
+    /**
+     *  you can rewrite in extend
+     */
     protected function init()
     {
-        // 僅供 rewirt
+        // 僅供 最終端 Controller rewirt
     }
 
     /**
@@ -111,12 +125,10 @@ class BaseController
      */
     protected function render($templateDotName, $params=[])
     {
-        $viewPath = conf('app.path') . '/resource/views';
-
         // default layout
         $layout = di('view')->getLayout();
         if (!$layout) {
-            $layout = ViewHelper::get('_global.layout.public');
+            $layout = ViewHelper::get('_global.layout.defaultPage');
             di('view')->setLayout($layout);
         }
 
@@ -167,7 +179,7 @@ class BaseController
             exit;
         }
 
-        di('view')->render($template, $params);
+        echo di('view')->render($template, $params);
     }
 
 }
