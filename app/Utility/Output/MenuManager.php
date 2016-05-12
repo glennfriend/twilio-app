@@ -237,6 +237,11 @@ class MenuManager
             return 'sub';
         }
 
+        // 予許空的 sub
+        if (!$info['sub']) {
+            return null;
+        }
+
         foreach ($info['sub'] as $subMenu) {
             if (!isset($subMenu['key'])) {
                 return 'sub key';
@@ -254,7 +259,6 @@ class MenuManager
 
         return null;
     }
-
 
 
 

@@ -10,12 +10,5 @@
             'link'      => cc('homeUrl' ,'/logout'),
             'role'      => '',
         ],
-        'sub' => [
-            [
-                'key'   => 'user-logout',
-                'label' => 'Logout',
-                'link'  => cc('homeUrl' ,'/logout'),
-                'role'  => '',
-            ],
-        ],
+        'sub' => [],
     ];
