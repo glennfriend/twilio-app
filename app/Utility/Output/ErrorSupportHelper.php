@@ -1,5 +1,5 @@
 <?php
-namespace App\Module\Output;
+namespace App\Utility\Output;
 
 /**
  *

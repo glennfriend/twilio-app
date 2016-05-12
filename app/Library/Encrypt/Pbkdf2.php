@@ -1,5 +1,5 @@
 <?php
-namespace App\Package\Encrypt;
+namespace App\Library\Encrypt;
 
 /*
     登入帳號加密程式

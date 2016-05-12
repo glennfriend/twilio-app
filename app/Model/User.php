@@ -1,7 +1,7 @@
 <?php
 namespace App\Model;
 use App\Model\Users as Users;
-use App\Package\Encrypt\Pbkdf2 as Pbkdf2;
+use App\Library\Encrypt\Pbkdf2 as Pbkdf2;
 
 /**
  *  User

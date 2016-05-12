@@ -1,8 +1,8 @@
 <?php
-namespace App\Module\Identity;
+namespace App\Utility\Identity;
 
 use Bridge\Session as Session;
-use App\Module\Identity\UserManager as UserManager;
+use App\Utility\Identity\UserManager as UserManager;
 use App\Model\User as User;
 use App\Model\Users as Users;
 

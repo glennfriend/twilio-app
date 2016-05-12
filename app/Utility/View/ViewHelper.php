@@ -1,5 +1,5 @@
 <?php
-namespace App\Module\View;
+namespace App\Utility\View;
 
 /**
  *

@@ -7,7 +7,7 @@ namespace App\Utility\Url;
  *
  *  @see https://en.wikipedia.org/wiki/Uniform_Resource_Identifier
  */
-class HomeUrlManager
+class AdminUrlManager
 {
 
     /**

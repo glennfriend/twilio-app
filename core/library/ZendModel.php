@@ -1,6 +1,6 @@
 <?php
 
-use App\Module\Identity\UserManager;
+use App\Utility\Identity\UserManager;
 
 /*
     Zend Db sample:
