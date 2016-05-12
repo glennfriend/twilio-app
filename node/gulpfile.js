@@ -3,13 +3,21 @@ var gulp = require("gulp");
 /**
  *  front-end resource
  */
-gulp.task('toAssets', function () {
+gulp.task('buildHomeAssets', function () {
     gulp.src('./node_modules/bootstrap/dist/**')    .pipe(gulp.dest("../home/assets/bootstrap/"));
     gulp.src('./node_modules/jquery/dist/*')        .pipe(gulp.dest("../home/assets/jquery/"));
+});
+
+/**
+ *  back-end resource
+ */
+gulp.task('buildAdminAssets', function () {
+    gulp.src('./node_modules/bootstrap/dist/**')    .pipe(gulp.dest("../home/admin/assets/bootstrap/"));
+    gulp.src('./node_modules/jquery/dist/*')        .pipe(gulp.dest("../home/admin/assets/jquery/"));
 });
 
 // --------------------------------------------------------------------------------
 
 gulp.task('default', function() {
-    gulp.run('toAssets');
+    gulp.run('buildHomeAssets', 'buildAdminAssets');
 });
