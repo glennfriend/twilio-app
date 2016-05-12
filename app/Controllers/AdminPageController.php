@@ -23,13 +23,16 @@ class AdminPageController extends BaseController
             return redirect('/login');
         }
 
+        // setting layout
         include 'adminPage.helper.php';
         di('view')->setLayout(
             ViewHelper::get('_global.layout.admin')
         );
 
         $this->diLoader();
-        $this->menuManagerLoader();
+
+        //
+        MenuManager::init(UserManager::getUser());
     }
 
     /**
@@ -45,22 +48,6 @@ class AdminPageController extends BaseController
             'baseUrl'   =>  conf('admin.base.url'),
             'host'      =>  isCli() ? '' :  $_SERVER['HTTP_HOST'],
         ]);
-    }
-
-    /**
-     *
-     */
-    private function menuManagerLoader()
-    {
-
-        // setting plugin manager
-        // 注意該程式執行的位置
-        // 越在前面, 執行的順序就越早, 但是當下時間 得到的資訊、使用的資源越少
-        // 越在後面, 執行的順序就越晚, 但是當下時間 得到的資訊、使用的資源越多
-
-//TODO: 未處理 user, 權限
-        MenuManager::init(UserManager::getUser());
-        // $this->plugin = $this->plugins->getPluginByKey( $this->module->getId() );
     }
 
 }

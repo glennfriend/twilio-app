@@ -254,7 +254,7 @@ class User extends \BaseObject
             $askPermissions = array($askPermissions);
         }
 
-        $roleNames = $this->getRoleNames();
+        $roleNames = explode(',', $this->getRoleNames());
         foreach ($askPermissions as $ask) {
             if ($ask===null || $ask==='' || in_array($ask, $roleNames)) {
                 return true;

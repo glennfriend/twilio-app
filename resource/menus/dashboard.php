@@ -1,6 +1,7 @@
 <?php
 
-    $managerRole = ['manager', 'developer'];
+    $managerRole    = ['manager', 'developer'];
+    $developerRole  = ['developer'];
 
     return [
         'main_order' => 100,
@@ -12,22 +13,22 @@
         ],
         'sub' => [
             [
-                'key'   => 'dashboard-1',
-                'label' => 'Dashboard 1',
-                'link'  => url('/dashboard/1'),
+                'key'   => 'dashboard-user',
+                'label' => 'User Dashboard',
+                'link'  => url('/dashboard'),
                 'role'  => '',
             ],
             [
-                'key'   => 'dashboard-2',
-                'label' => 'Dashboard 2',
-                'link'  => url('/dashboard/2'),
-                'role'  => '',
-            ],
-            [
-                'key'   => 'dashboard-3',
-                'label' => 'Dashboard 3',
-                'link'  => url('/dashboard/3'),
+                'key'   => 'dashboard-manager',
+                'label' => 'Manager Dashboard',
+                'link'  => url('/dashboard', ['by'=>'manager']),
                 'role'  => $managerRole,
+            ],
+            [
+                'key'   => 'dashboard-developer',
+                'label' => 'Developer Dashboard',
+                'link'  => url('/dashboard', ['by'=>'developer']),
+                'role'  => $developerRole,
             ],
         ],
     ];

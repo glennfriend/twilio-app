@@ -1,30 +1,17 @@
 <?php
 namespace App\Utility\Output;
 
+use App\Model\User as User;
+
 /**
- *  管理 Yii module 的 plugin class
- *  使用時必須 實體化 new class
- *
- *  因應不用的 framework 放置方式
- *  程式碼會相對不同
- *  該程式讓 Yii module 自己管理自己的 plugin setting
- *  設定將以 module 為主
- *
- *  什麼情況需要將程式的內容 不放置在 module, 而需要納入 plugin 之中?
- *      - 不是執行 本身的 module 也要執行 某一些程式嗎
- *      - 不是執行 本身的 module 也要顯示 某一些內容
- *      - 在執行到 module 之前就要執行
- *      - crontab job
- *
- *
- *  @see CacheBrg
+ *  管理 menu 在後台的顯示
  */
 class MenuManager
 {
     /**
      *  儲存所有的 menu info
      */
-    private static $_plugins = array();
+    private static $_meunInfos = array();
 
     /**
      *  要 focus 在那個 main-menu
@@ -47,11 +34,9 @@ class MenuManager
      *
      *  @param $user, user model, 因為權限關系, 能取得到的 menu 訊息會不同
      */
-    public static function init($user)
+    public static function init(User $user)
     {
-//TODO: 未處理 user
-
-        if (self::$_plugins) {
+        if (self::$_meunInfos) {
             return;
         }
 
@@ -63,10 +48,32 @@ class MenuManager
             $orderKey   = "s{$order}{$key}";
             $infos[$orderKey] = $info;
         }
-
         ksort($infos);
         $infos = array_values($infos);
-        self::$_plugins = $infos;
+
+        // 濾除不符合 user 的 main menu 權限
+        foreach ($infos as $mainIndex => $items) {
+            $role = $items['main']['role'];
+            $result = $user->hasPermission($role);
+            if (!$result) {
+                unset($infos[$mainIndex]);
+            }
+        }
+        $infos = array_values($infos);
+
+        // 濾除不符合 user 的 sub menu 權限
+        foreach ($infos as $mainIndex => $items) {
+            foreach ($items['sub'] as $subIndex => $sub) {
+                $role = $sub['role'];
+                $result = $user->hasPermission($role);
+                if (!$result) {
+                    unset($infos[$mainIndex]['sub'][$subIndex]);
+                }
+            }
+            array_values($infos[$mainIndex]['sub']);
+        }
+
+        self::$_meunInfos = $infos;
     }
 
     /**
@@ -74,7 +81,7 @@ class MenuManager
      */
     public static function getMenuInfos()
     {
-        return self::$_plugins;
+        return self::$_meunInfos;
     }
 
     /**
@@ -259,44 +266,5 @@ class MenuManager
 
         return null;
     }
-
-
-
-
-    /**
-     *  依照權限, 移除不符合權限的內容
-     *  受影響的 option:
-     *              mainMenu
-     *              subMenu
-     *
-     */
-    /*
-    private static function filterMenuByRole($plugin, $user)
-    {
-        $mainMenu = $plugin->getOption('mainMenu');
-
-        if (!is_array($mainMenu['role'])) {
-            // main menu 沒有設定權限, 表示 all pass
-        } elseif (!$user->hasPermission($mainMenu['role'])) {
-            $plugin->setOption('mainMenu', array());
-            $plugin->setOption('subMenu', array());
-            return $plugin;
-        }
-
-        $subMenu = $plugin->getOption('subMenu');
-        if (!$subMenu) {
-            // sub menu 沒有設定權限, 表示 all pass
-            return $plugin;
-        }
-
-        foreach ($subMenu as $key => $menu) {
-            if (!$user->hasPermission($menu['role'])) {
-                unset($subMenu[$key]);
-            }
-        }
-        $plugin->setOption('subMenu', $subMenu);
-        return $plugin;
-    }
-    */
 
 }
