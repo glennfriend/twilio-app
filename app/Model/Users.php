@@ -229,7 +229,7 @@ class Users extends \ZendModel
         $opt += array(
             '_order'        => 'id,DESC',
             '_page'         => 1,
-            '_itemsPerPage' => conf('db.items_per_page')
+            '_itemsPerPage' => conf('db.per_page')
         );
         return $this->findUsersReal( $opt );
     }
