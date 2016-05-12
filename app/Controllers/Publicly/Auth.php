@@ -2,7 +2,7 @@
 namespace App\Controllers\Publicly;
 
 use App\Controllers\PublicyController;
-use App\Module\Identity\UserIdentity as UserIdentity;
+use App\Utility\Identity\UserIdentity as UserIdentity;
 use Bridge\Input;
 
 /**
@@ -18,7 +18,7 @@ class Auth extends PublicyController
     {
         $userIdentity = new UserIdentity();
         if ($userIdentity->isLogin()) {
-            return redirect('/dashboard');
+            return redirect('/admin/dashboard');
         }
 
         $account  = trim(strip_tags( Input::get('account') ));
@@ -28,7 +28,7 @@ class Auth extends PublicyController
 
             if( $userIdentity->authenticate( $account, $password ) ) {
                 // 登入成功
-                return redirect('/dashboard');
+                return redirect('/admin/dashboard');
             }
             else {
                 // 帳號或密碼錯誤

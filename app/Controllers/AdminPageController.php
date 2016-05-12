@@ -1,7 +1,7 @@
 <?php
 namespace App\Controllers;
 
-use App\Module\Identity\UserManager as UserManager;
+use App\Utility\Identity\UserManager as UserManager;
 
 /**
  *
@@ -18,6 +18,24 @@ class AdminPageController extends BaseController
         if (!$user) {
             return redirect('/login');
         }
+
+        include 'adminPage.helper.php';
+        $this->diLoader();
+    }
+
+    /**
+     *
+     */
+    private function diLoader()
+    {
+        $di = di();
+
+        $di->register('url', 'App\Utility\Url\AdminUrlManager');
+        $di->get('url')->init([
+            'basePath'  =>  conf('app.path'),
+            'baseUrl'   =>  conf('admin.base.url'),
+            'host'      =>  isCli() ? '' :  $_SERVER['HTTP_HOST'],
+        ]);
     }
 
 }

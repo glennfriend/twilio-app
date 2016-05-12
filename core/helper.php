@@ -1,5 +1,8 @@
 <?php
 
+use App\Utility\Console\CliManager as CliManager;
+use App\Utility\Console\ConsoleHelper as ConsoleHelper;
+
 // --------------------------------------------------------------------------------
 //  Basic
 // --------------------------------------------------------------------------------
@@ -100,41 +103,6 @@ function cc()
 }
 
 // --------------------------------------------------------------------------------
-//  route help
-// --------------------------------------------------------------------------------
-
-/**
- *  取得 route / command line 處理之後獲得的參數
- */
-function getParam($key, $defaultValue=null)
-{
-    if (isCli()) {
-        return App\Module\Console\CliManager::get($key);
-    }
-    else {
-        return Bridge\Input::getParam($key, $defaultValue);
-    }
-}
-
-function url($segment, $args=[])
-{
-    return di('url')->CreateUrl($segment, $args);
-}
-
-function redirect($url, $isFullUrl=false)
-{
-    // if (isCli()) {
-    //     return;
-    // }
-
-    if (!$isFullUrl) {
-        $url = url($url);
-    }
-
-    return SlimManager::getResponse()->withHeader('Location', $url);
-}
-
-// --------------------------------------------------------------------------------
 //  Output
 // --------------------------------------------------------------------------------
 
@@ -208,7 +176,7 @@ function table(Array $rows, $headers=null)
         if (null === $headers) {
             $headers = array_keys($rows[0]);
         }
-        echo App\Module\Console\ConsoleHelper::table( $headers, $rows );
+        echo ConsoleHelper::table( $headers, $rows );
     }
     else {
         if ($rows) {

@@ -2,8 +2,8 @@
 namespace App\Controllers;
 
 use Bridge\Input;
-use App\Module\Console\CliManager;
-use App\Module\View\ViewHelper;
+use App\Utility\Console\CliManager;
+use App\Utility\View\ViewHelper;
 
 /**
  *
@@ -85,19 +85,18 @@ class BaseController
 
         // log & log folder
         $di->register('log', 'Bridge\Log')
-            ->addMethodCall('init', ['%app.path%/var']);
+           ->addMethodCall('init', ['%app.path%/var']);
 
         // view
         $di->register('view', 'Bridge\View');
 
-
-        // url
-        $di->register('url', 'App\Module\Url\HomeUrlManager');
-        $di->get('url')->init([
-            'basePath'  =>  conf('app.path'),
-            'baseUrl'   =>  conf('home.base.url'),
-            'host'      =>  isCli() ? '' :  $_SERVER['HTTP_HOST'],
-        ]);
+        // // url -> 移到各自的 controller
+        // $di->register('url', 'App\Utility\Url\HomeUrlManager');
+        // $di->get('url')->init([
+        //     'basePath'  =>  conf('app.path'),
+        //     'baseUrl'   =>  conf('home.base.url'),
+        //     'host'      =>  isCli() ? '' :  $_SERVER['HTTP_HOST'],
+        // ]);
 
         // queue
         // $di->register('queue', 'Bridge\Queue');
