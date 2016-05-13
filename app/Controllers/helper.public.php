@@ -13,7 +13,7 @@ function getParam($key, $defaultValue=null)
 
 function url($segment, $args=[])
 {
-    return di('url')->CreateUrl($segment, $args);
+    return di('homeUrl')->CreateUrl($segment, $args);
 }
 
 function redirect($url, $isFullUrl=false)
@@ -24,6 +24,19 @@ function redirect($url, $isFullUrl=false)
 
     if (!$isFullUrl) {
         $url = url($url);
+    }
+
+    return SlimManager::getResponse()->withHeader('Location', $url);
+}
+
+function redirectAdmin($url)
+{
+    if (isCli()) {
+        throw new Exception('Error: Is command-line env');
+    }
+
+    if (!$isFullUrl) {
+        $url = di('adminUrl')->CreateUrl($url);
     }
 
     return SlimManager::getResponse()->withHeader('Location', $url);

@@ -17,22 +17,21 @@ class AdminPageController extends BaseController
      */
     public function initBefore()
     {
-        // 必須認證
-        $user = UserManager::getUser();
-        if (!$user) {
-            return redirect('/login');
-        }
+        $this->diLoader();
+        include 'helper.adminPage.php';
 
         // setting layout
-        include 'adminPage.helper.php';
         di('view')->setLayout(
             ViewHelper::get('_global.layout.admin')
         );
 
-        $this->diLoader();
+        // 必須認證
+        $user = UserManager::getUser();
+        if (!$user) {
+            return redirectHome('/login');
+        }
 
-        //
-        MenuManager::init(UserManager::getUser());
+        MenuManager::init($user);
     }
 
     /**
@@ -40,14 +39,6 @@ class AdminPageController extends BaseController
      */
     private function diLoader()
     {
-        $di = di();
-
-        $di->register('url', 'App\Utility\Url\AdminUrlManager');
-        $di->get('url')->init([
-            'basePath'  =>  conf('app.path'),
-            'baseUrl'   =>  conf('admin.base.url'),
-            'host'      =>  isCli() ? '' :  $_SERVER['HTTP_HOST'],
-        ]);
     }
 
 }

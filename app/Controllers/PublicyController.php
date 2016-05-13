@@ -14,11 +14,12 @@ class PublicyController extends BaseController
      */
     public function initBefore()
     {
-        include 'public.helper.php';
+        $this->diLoader();
+        include 'helper.public.php';
+
         di('view')->setLayout(
             ViewHelper::get('_global.layout.public')
         );
-        $this->diLoader();
     }
 
     /**
@@ -26,14 +27,6 @@ class PublicyController extends BaseController
      */
     private function diLoader()
     {
-        $di = di();
-
-        $di->register('url', 'App\Utility\Url\HomeUrlManager');
-        $di->get('url')->init([
-            'basePath'  =>  conf('app.path'),
-            'baseUrl'   =>  conf('home.base.url'),
-            'host'      =>  isCli() ? '' :  $_SERVER['HTTP_HOST'],
-        ]);
     }
 
 }

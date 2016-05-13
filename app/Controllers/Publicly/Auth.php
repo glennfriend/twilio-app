@@ -18,7 +18,7 @@ class Auth extends PublicyController
     {
         $userIdentity = new UserIdentity();
         if ($userIdentity->isLogin()) {
-            return redirect('/admin/dashboard');
+            return redirectAdmin('/dashboard');
         }
 
         $account  = trim(strip_tags( Input::get('account') ));
@@ -28,7 +28,7 @@ class Auth extends PublicyController
 
             if( $userIdentity->authenticate( $account, $password ) ) {
                 // 登入成功
-                return redirect('/admin/dashboard');
+                return redirectAdmin('/dashboard');
             }
             else {
                 // 帳號或密碼錯誤

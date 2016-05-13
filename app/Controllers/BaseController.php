@@ -16,6 +16,7 @@ class BaseController
     public function __construct()
     {
         $this->baseDiLoader();
+        $this->baseLoader();
     }
 
     /**
@@ -74,6 +75,14 @@ class BaseController
     }
 
     /**
+     *  base loader
+     */
+    private function baseLoader()
+    {
+
+    }
+
+    /**
      *  di loader
      *  @see https://github.com/symfony/dependency-injection
      *  @see http://symfony.com/doc/current/components/dependency_injection/factories.html
@@ -104,20 +113,29 @@ class BaseController
         // view
         $di->register('view', 'Bridge\View');
 
-        // // url -> 移到各自的 controller
-        // $di->register('url', 'App\Utility\Url\HomeUrlManager');
-        // $di->get('url')->init([
-        //     'basePath'  =>  conf('app.path'),
-        //     'baseUrl'   =>  conf('home.base.url'),
-        //     'host'      =>  isCli() ? '' :  $_SERVER['HTTP_HOST'],
-        // ]);
-
         // queue
         // $di->register('queue', 'Bridge\Queue');
 
         // cache
         $di->register('cache', 'Bridge\Cache')
             ->addMethodCall('init', ['%app.path%/var/cache']);
+
+        // home url manager
+        $di->register('homeUrl', 'App\Utility\Url\HomeUrlManager');
+        $di->get('homeUrl')->init([
+            'basePath'  =>  conf('app.path'),
+            'baseUrl'   =>  conf('home.base.url'),
+            'host'      =>  isCli() ? '' :  $_SERVER['HTTP_HOST'],
+        ]);
+
+        // admin url manager
+        $di->register('AdminUrl', 'App\Utility\Url\AdminUrlManager');
+        $di->get('AdminUrl')->init([
+            'basePath'  =>  conf('app.path'),
+            'baseUrl'   =>  conf('admin.base.url'),
+            'host'      =>  isCli() ? '' :  $_SERVER['HTTP_HOST'],
+        ]);
+
     }
 
     /**
