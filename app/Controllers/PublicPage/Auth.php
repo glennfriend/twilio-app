@@ -3,6 +3,7 @@ namespace App\Controllers\PublicPage;
 
 use App\Controllers\PublicPageController;
 use App\Utility\Identity\UserIdentity as UserIdentity;
+use App\Utility\Output\FormMessageManager as FormMessageManager;
 use Bridge\Input;
 
 /**
@@ -32,9 +33,6 @@ class Auth extends PublicPageController
             }
             else {
                 // 帳號或密碼錯誤
-                // TODO: 未加入 FormMessageManager
-                echo 'The password you entered is invalid. Check the field highlighted below and try again.';
-                exit;
                 FormMessageManager::addErrorResultMessage('The password you entered is invalid. Check the field highlighted below and try again.');
             }
         }

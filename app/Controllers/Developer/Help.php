@@ -27,7 +27,7 @@ class Help extends AdminPageController
             $show[$index] = [
                 'pattern' => $route->getPattern(),
                 'methods' => join(',' , $route->getMethods()),
-                'url'     => $urlPrefix . conf('home.base.url') . $route->getPattern(),
+                'url'     => $urlPrefix . url($route->getPattern()),
             ];
 
             $description = $this->getArgumentsTip($route->getPattern());

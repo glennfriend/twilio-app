@@ -21,6 +21,7 @@ class Home extends PublicPageController
             'route_or_cli_data' => trim(strip_tags(getParam('data'))),
         ]);
         */
+
         $this->render('publicPage.home.defaultPage', [
             'message' => 'welcome',
         ]);
