@@ -11,7 +11,7 @@ use App\Utility\Output\MenuManager as MenuManager;
 class AdminPageController extends BaseController
 {
     /**
-     *  這裡僅供 extend controller rewrite
+     *  initBefore() 僅供 extend controller rewrite
      *  最終端 Controller 請使用 init()
      */
     protected function initBefore()

@@ -65,14 +65,6 @@ class AdminUrlManager
         return $url . '?' . join('&', $query);
     }
 
-    /**
-     *
-     */
-    public static function createUri($segment, $args=[])
-    {
-        return 'http://' . self::$data['host'] . self::createUrl($segment, $args);
-    }
-
     /* ================================================================================
         產生專案以外的網址
     ================================================================================ */
