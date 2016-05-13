@@ -3,7 +3,6 @@ namespace App\Controllers;
 
 use Bridge\Input;
 use App\Utility\Console\CliManager;
-use App\Utility\View\ViewHelper;
 
 /**
  *
@@ -31,8 +30,6 @@ class BaseController
             throw new \Exception("API method '{$method}' is not exist!");
             exit;
         }
-
-        di('view')->init();
 
         if (isCli()) {
             CliManager::init($argv);
@@ -95,9 +92,11 @@ class BaseController
         $di->setParameter('app.path', $basePath);
 
         /*
-        $di->register('abc', 'Lib\Abc')
-            ->addArgument('%app.path%');                    // __construct
-            ->setProperty('setDb', [new Reference('db')]);  // ??
+            Example:
+                $di
+                    ->register('example', 'Lib\Abc')
+                    ->addArgument('%app.path%');                    // __construct
+                    ->setProperty('setDb', [new Reference('db')]);  // ??
         */
 
         // session
@@ -111,7 +110,11 @@ class BaseController
            ->addMethodCall('init', ['%app.path%/var']);
 
         // view
-        $di->register('view', 'Bridge\View');
+        $viewConfig = [
+            'view_path' => conf('app.path') . '/resource/views'
+        ];
+        $di->register('view', 'Bridge\View')
+           ->addMethodCall('init', [$viewConfig]);
 
         // queue
         // $di->register('queue', 'Bridge\Queue');
@@ -143,14 +146,7 @@ class BaseController
      */
     protected function render($templateDotName, $params=[])
     {
-        // default layout
-        $layout = di('view')->getLayout();
-        if (!$layout) {
-            $layout = ViewHelper::get('_global.layout.defaultPage');
-            di('view')->setLayout($layout);
-        }
-
-        $template = ViewHelper::get($templateDotName);
+        $template = di('view')->getPathFile($templateDotName);
         if (!file_exists($template)) {
 
             // 如果找不到 template

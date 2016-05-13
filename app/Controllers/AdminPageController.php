@@ -1,7 +1,6 @@
 <?php
 namespace App\Controllers;
 
-use App\Utility\View\ViewHelper as ViewHelper;
 use App\Utility\Identity\UserManager as UserManager;
 use App\Utility\Output\Menu as Menu;
 use App\Utility\Output\MenuManager as MenuManager;
@@ -15,15 +14,12 @@ class AdminPageController extends BaseController
      *  這裡僅供 extend controller rewrite
      *  最終端 Controller 請使用 init()
      */
-    public function initBefore()
+    protected function initBefore()
     {
         $this->diLoader();
         include 'helper.adminPage.php';
 
-        // setting layout
-        di('view')->setLayout(
-            ViewHelper::get('_global.layout.admin')
-        );
+        di('view')->setLayout('_global.layout.admin');
 
         // 必須認證
         $user = UserManager::getUser();
