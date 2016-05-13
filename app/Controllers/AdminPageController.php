@@ -2,7 +2,6 @@
 namespace App\Controllers;
 
 use App\Utility\Identity\UserManager as UserManager;
-use App\Utility\Output\Menu as Menu;
 use App\Utility\Output\MenuManager as MenuManager;
 
 /**

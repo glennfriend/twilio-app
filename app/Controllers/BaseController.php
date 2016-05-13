@@ -56,7 +56,8 @@ class BaseController
     }
 
     /**
-     *  you can rewrite in extend
+     *  僅供 extend controller rewrite
+     *  最終端 Controller 請使用 init()
      */
     protected function initBefore()
     {
@@ -64,7 +65,7 @@ class BaseController
     }
 
     /**
-     *  you can rewrite in extend
+     *  供給最終端 Controller 使用, 用來處理該 Controller 共用的流程
      */
     protected function init()
     {
