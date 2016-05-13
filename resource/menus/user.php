@@ -7,7 +7,7 @@
         'main' => [
             'key'       => 'user-logout',
             'label'     => 'Logout',
-            'link'      => cc('homeUrl' ,'/logout'),
+            'link'      => homeUrl('/logout'),
             'role'      => '',
         ],
         'sub' => [],
