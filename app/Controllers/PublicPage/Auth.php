@@ -1,14 +1,14 @@
 <?php
-namespace App\Controllers\Publicly;
+namespace App\Controllers\PublicPage;
 
-use App\Controllers\PublicyController;
+use App\Controllers\PublicPageController;
 use App\Utility\Identity\UserIdentity as UserIdentity;
 use Bridge\Input;
 
 /**
  *
  */
-class Auth extends PublicyController
+class Auth extends PublicPageController
 {
 
     /**
@@ -39,7 +39,7 @@ class Auth extends PublicyController
             }
         }
 
-        $this->render('publicly.auth.login', Array(
+        $this->render('publicPage.auth.login', Array(
             'account' => $account,
         ));
     }

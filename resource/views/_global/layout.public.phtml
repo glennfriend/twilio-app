@@ -32,6 +32,9 @@ use App\Utility\Identity\UserManager as UserManager;
                                     echo '<li><a href="javascript:void(0)">' . $user->getUsername() . '</a></li>';
                                     echo '<li><a href="' . url('/logout') . '">Logout</a></li>';
                                 }
+                                else {
+                                    echo '<li><a href="' . url('/login')  . '">Login</a></li>';
+                                }
                             ?>
                         </ul>
                     </div>

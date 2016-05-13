@@ -6,7 +6,7 @@ use App\Utility\View\ViewHelper as ViewHelper;
 /**
  *
  */
-class PublicyController extends BaseController
+class PublicPageController extends BaseController
 {
     /**
      *  這裡僅供 extend controller rewrite
@@ -15,7 +15,7 @@ class PublicyController extends BaseController
     public function initBefore()
     {
         $this->diLoader();
-        include 'helper.public.php';
+        include 'helper.publicPage.php';
 
         di('view')->setLayout(
             ViewHelper::get('_global.layout.public')

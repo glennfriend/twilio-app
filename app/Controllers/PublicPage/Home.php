@@ -1,13 +1,13 @@
 <?php
-namespace App\Controllers\Publicly;
+namespace App\Controllers\PublicPage;
 
-use App\Controllers\PublicyController;
+use App\Controllers\PublicPageController;
 use Bridge\Input;
 
 /**
  *
  */
-class Home extends PublicyController
+class Home extends PublicPageController
 {
 
     /**
@@ -21,8 +21,7 @@ class Home extends PublicyController
             'route_or_cli_data' => trim(strip_tags(getParam('data'))),
         ]);
         */
-
-        $this->render('publicly.home.defaultPage', [
+        $this->render('publicPage.home.defaultPage', [
             'message' => 'welcome',
         ]);
     }
