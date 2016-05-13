@@ -38,13 +38,15 @@
     }
 </style>
 
-<script type="text/javascript">
-    $(document).ready(function(){
-        $('input[name=account]').focus();
+<script>
+    "use strict";
+
+    document.addEventListener("DOMContentLoaded", function(event){
+        document.forms[0].account.focus();
     });
 </script>
 
-<section id="form">
+<section>
 
     <h1><?php echo $projectName; ?></h1>
     <hr style="height:10px" class="especialColor" />
@@ -52,7 +54,7 @@
     <div class="row">
         <div class="col-md-12">
 
-            <form class="well" method="post">
+            <form id="form-login" class="well" method="post">
             <fieldset class="form-signin">
 
                 <div class="form-group">
@@ -73,4 +75,3 @@
     </div>
 
 </section>
-
