@@ -1,0 +1,13 @@
+view 使用方法
+
+    指定一個 view template name
+    Example:
+        "dashboard.home.defaultPage" => /var/www/project/resource/views/dashboard/home.defaultPage.phtml
+
+    base controller 會指定一個 layout
+        layout 裡面的專用關鍵字 {{content}} 會將 template content 轉換到裡面
+        以完成一個 view render
+
+    注意:
+        為避免無限遞迴, 請盡量不要採用 "template call template" 的設計
+

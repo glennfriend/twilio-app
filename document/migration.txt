@@ -1,0 +1,25 @@
+migration
+
+    列表:
+        php migration
+
+    migrate your database:
+        php migration migrations:migrate
+
+    如果要還原 migrate 的動作
+        先查看上次做的版本
+            php migration migrations:status
+        對這個版本做 down 處理
+            php migration migrations:execute  _xxxx_20xxxxxx  --down
+
+    使用的工具:
+        Doctrine
+
+
+文件參考:
+
+自行建置 migration 參考:
+    http://bisaga.com/blog/programming/add_data_migration_silex/
+
+反對 transaction 的參考:
+    https://github.com/doctrine/DoctrineMigrationsBundle/issues/62

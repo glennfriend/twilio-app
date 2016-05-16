@@ -1,0 +1,21 @@
+#!/usr/bin/env php
+<?php
+use Symfony\Component\Console\Application;
+
+$basePath = __DIR__;
+require_once $basePath . '/core/bootstrap.php';
+initialize($basePath);
+ProjectHelper::buildApp();
+
+// --------------------------------------------------------------------------------
+//  start
+// --------------------------------------------------------------------------------
+
+$application = new Application();
+$application->add(new \Doctrine\DBAL\Migrations\Tools\Console\Command\DiffCommand());
+$application->add(new \Doctrine\DBAL\Migrations\Tools\Console\Command\ExecuteCommand());
+$application->add(new \Doctrine\DBAL\Migrations\Tools\Console\Command\GenerateCommand());
+$application->add(new \Doctrine\DBAL\Migrations\Tools\Console\Command\MigrateCommand());
+$application->add(new \Doctrine\DBAL\Migrations\Tools\Console\Command\StatusCommand());
+$application->add(new \Doctrine\DBAL\Migrations\Tools\Console\Command\VersionCommand());
+$application->run();
