@@ -1,9 +1,11 @@
 {
     "require" : {
-        "symfony/console": "2.*",
         "pwfisher/command-line-php": "dev-master",
         "nette/mail": "2.2.*",
 
+        "doctrine/dbal": "2.5.*",
+        "doctrine/migrations": "1.4.*",
+        "symfony/console": "3.0.*",
         "doctrine/cache": "1.6.*",
         "zendframework/zend-db": "2.8.1",
         "symfony/dependency-injection": "3.*",
