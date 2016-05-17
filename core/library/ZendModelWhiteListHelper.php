@@ -122,4 +122,98 @@ class ZendModelWhiteListHelper
     }
 
 
+    /**
+     *  包裏多數資料 (陣列格式) 的 Zend Db 語法
+     *
+     *  由於 Zend Db 在包裏 nest, unnset 之間的條件必須在一個式子裡面
+     *  所以這裡用比較醜的方式來重新包裏 ( values[0] and values[1] and ... )
+     *
+     *  example:
+     *
+     *      $select
+     *          ->where
+     *          ->and
+     *          ->nest
+     *              ->like( $field, '%'. $values[0] .'%' )
+     *              ->or
+     *              ->like( $field, '%'. $values[1] .'%' )
+     *              ->or
+     *              ->like( $field, '%'. $values[2] .'%' )
+     *          ->unnest
+     *      ;
+     *
+     */
+    public static function nestLikeOr(Zend\Db\Sql\Select $select, $field, Array $values)
+    {
+        if (1 == count($values)) {
+            $select
+                ->where
+                ->and
+                ->nest
+                    ->like( $field, '%'. $values[0] .'%' )
+                ->unnest
+            ;
+        }
+        elseif (2 == count($values)) {
+            $select
+                ->where
+                ->and
+                ->nest
+                    ->like( $field, '%'. $values[0] .'%' )
+                    ->or
+                    ->like( $field, '%'. $values[1] .'%' )
+                ->unnest
+            ;
+        }
+        elseif (3 == count($values)) {
+            $select
+                ->where
+                ->and
+                ->nest
+                    ->like( $field, '%'. $values[0] .'%' )
+                    ->or
+                    ->like( $field, '%'. $values[1] .'%' )
+                    ->or
+                    ->like( $field, '%'. $values[2] .'%' )
+                ->unnest
+            ;
+        }
+        elseif (4 == count($values)) {
+            $select
+                ->where
+                ->and
+                ->nest
+                    ->like( $field, '%'. $values[0] .'%' )
+                    ->or
+                    ->like( $field, '%'. $values[1] .'%' )
+                    ->or
+                    ->like( $field, '%'. $values[2] .'%' )
+                    ->or
+                    ->like( $field, '%'. $values[3] .'%' )
+                ->unnest
+            ;
+        }
+        elseif (5 == count($values)) {
+            $select
+                ->where
+                ->and
+                ->nest
+                    ->like( $field, '%'. $values[0] .'%' )
+                    ->or
+                    ->like( $field, '%'. $values[1] .'%' )
+                    ->or
+                    ->like( $field, '%'. $values[2] .'%' )
+                    ->or
+                    ->like( $field, '%'. $values[3] .'%' )
+                    ->or
+                    ->like( $field, '%'. $values[4] .'%' )
+                ->unnest
+            ;
+        }
+        else {
+            throw new Exception('f324093j4806384506k8320495k830495k83405934');
+        }
+
+    }
+
 }
