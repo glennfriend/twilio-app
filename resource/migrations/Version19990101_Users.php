@@ -4,7 +4,7 @@ namespace DoctrineMigrations;
 use Doctrine\DBAL\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
 
-class Version_Users_20000101 extends AbstractMigration
+class Version19990101_Users extends AbstractMigration
 {
     /**
      *  Run the migrations
