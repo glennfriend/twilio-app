@@ -1,14 +1,33 @@
 <?php
 
-    $managerRole = ['manager', 'developer'];
+    $managerRole = ['login'];
 
     return [
         'main_order' => 9000,
         'main' => [
-            'key'       => 'user-logout',
-            'label'     => 'Logout',
-            'link'      => homeUrl('/logout'),
+            'key'       => 'me',
+            'label'     => 'User',
+            'link'      => url('/me'),
             'role'      => '',
         ],
-        'sub' => [],
+        'sub' => [
+            [
+                'key'       => 'me-about',
+                'label'     => 'About Me',
+                'link'      => url('/me'),
+                'role'      => '',
+            ],
+            [
+                'key'       => 'me-change-password',
+                'label'     => 'Change Password',
+                'link'      => url('/me-change-password'),
+                'role'      => '',
+            ],
+            [
+                'key'       => 'me-logs',
+                'label'     => 'Show Logs',
+                'link'      => url('/me-logs'),
+                'role'      => '',
+            ],
+        ],
     ];

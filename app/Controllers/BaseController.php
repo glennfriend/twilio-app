@@ -3,6 +3,7 @@ namespace App\Controllers;
 
 use Bridge\Input;
 use App\Utility\Console\CliManager;
+use App\Utility\Identity\UserManager as UserManager;
 
 /**
  *
@@ -56,6 +57,26 @@ class BaseController
     }
 
     /**
+     *  @see assignParamToView()
+     */
+    protected $_assignParams = [];
+
+    /**
+     *  在 controller 如果會有常用的 變數 要寫入 view
+     *  可以在這裡設定, 不需要每次都在 render() 的時候才代入參數
+     *  這裡代入的值, 會被呼叫 render() 相同名稱的變數所覆蓋
+     *
+     *  常會使用的參數性質:
+     *      - 管理界面登入後, 該使用者的 User 資料
+     *      - Page Limit 資料
+     *
+     */
+    protected function assignParam($key, $value)
+    {
+        $this->_assignParams[$key] = $value;
+    }
+
+    /**
      *  僅供 extend controller rewrite
      *  最終端 Controller 請使用 init()
      */
@@ -77,7 +98,8 @@ class BaseController
      */
     private function baseLoader()
     {
-
+        // 在 template 之中可以使用登入者的資料 $authUser 
+        $this->assignParam('authUser', UserManager::getUser());
     }
 
     /**
@@ -147,7 +169,8 @@ class BaseController
      */
     protected function render($templateDotName, $params=[])
     {
-        $template = di('view')->getPathFile($templateDotName);
+        $view = di('view');
+        $template = $view->getPathFile($templateDotName);
         if (!file_exists($template)) {
 
             // 如果找不到 template
@@ -194,7 +217,13 @@ class BaseController
             exit;
         }
 
-        echo di('view')->render($template, $params);
+        // 在 controler 所設定的值要寫入 view 當變數
+        foreach ($this->_assignParams as $key => $value) {
+            $view->assingViewParam($key, $value);
+        }
+
+        // render view
+        echo $view->render($template, $params);
     }
 
 }

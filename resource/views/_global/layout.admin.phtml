@@ -1,5 +1,6 @@
 <?php
     use App\Utility\Output\MenuManager as MenuManager;
+    use App\Utility\Identity\UserManager as UserManager;
 
     $menuInfos      = MenuManager::getMenuInfos();
     $focusMain      = MenuManager::getFocusMain();
@@ -17,20 +18,35 @@
         <nav class="navbar navbar-static-top navbar-dark bg-inverse">
             <a class="navbar-brand" href="javascript:void(0)"><?php echo conf('app.project.name');  ?></a>
             <ul class="nav navbar-nav pull-left">
-            <?php
-                foreach ($menuInfos as $item) {
-                    $url    = $item['main']['link'];
-                    $key    = $item['main']['key'];
-                    $label  = $item['main']['label'];
 
-                    $active = '';
-                    if ($focusMain && $focusMain['key'] === $key) {
-                        $active = 'active';
+                <?php
+                    foreach ($menuInfos as $item) {
+                        $url    = $item['main']['link'];
+                        $key    = $item['main']['key'];
+                        $label  = $item['main']['label'];
+
+                        $active = '';
+                        if ($focusMain && $focusMain['key'] === $key) {
+                            $active = 'active';
+                        }
+                        echo '<li class="nav-item '. $active .'"><a class="nav-link" href="'. $url .'">'. $label .'</a></li>';
                     }
-                    echo '<li class="nav-item '. $active .'"><a class="nav-link" href="'. $url .'">'. $label .'</a></li>';
-                }
-            ?>
+                ?>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Setting</a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-header">&laquo; User &raquo;</a>
+                        <a class="dropdown-item" href="<?php echo url('/me'); ?>"><?php echo UserManager::getUser()->getUsername(); ?></a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-header">&laquo; Status &raquo;</a>
+                        <a class="dropdown-item" href="<?php echo homeUrl('/logout'); ?>">Logout</a>
+                    </div>
+                </li>
+
             </ul>
+
+
         </nav>
 
         <div class="container-fluid" style="margin-top:20px;">

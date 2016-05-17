@@ -1,6 +1,8 @@
 <?php
 namespace Bridge;
 
+// TODO: 下面這樣的寫法是無法抽出 view 的, 請正確處理程式碼
+
 class View
 {
 
@@ -28,7 +30,7 @@ class View
      */
     public static function setLayout($layout)
     {
-        return self::$engine->set('layout', $layout);
+        self::$engine->set('layout', $layout);
     }
 
     /**
@@ -46,6 +48,21 @@ class View
     public static function getPathFile($templateName)
     {
         return self::$engine->getPathFile($templateName);
+    }
+
+    /**
+     *  將 key, value 設定到 view 裡面
+     *  提供 template 可以使用例如 $this->hello 的參數
+     */
+    public static function assingViewParam($key, $value)
+    {
+        // TODO: 必須修正以下的做法
+
+        // 黑名單
+        if (in_array($key,['config','data'])) {
+            return;
+        }
+        self::$engine->$key = $value;
     }
 
 }
