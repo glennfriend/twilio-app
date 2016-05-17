@@ -1,5 +1,6 @@
 <?php
 namespace App\Model;
+
 use App\Model\User as User;
 
 class Users extends \ZendModel
@@ -102,8 +103,8 @@ class Users extends \ZendModel
         if ( $object->getId() <= 0 ) {
             return;
         }
-        $cacheKey = $this->getFullCacheKey( $object->getId(), Users::CACHE_USER );
-        self::getCache()->remove( $cacheKey );
+        $cacheKey = $this->getFullCacheKey($object->getId(), Users::CACHE_USER);
+        self::getCache()->remove($cacheKey);
     }
 
     /* ================================================================================
@@ -268,9 +269,9 @@ class Users extends \ZendModel
             ]
         );
 
-        ZendModelWhiteListHelper::validateFields($opt, $list);
-        ZendModelWhiteListHelper::filterOrder($opt, $list);
-        ZendModelWhiteListHelper::fieldValueNullToEmpty($opt);
+        \ZendModelWhiteListHelper::validateFields($opt, $list);
+        \ZendModelWhiteListHelper::filterOrder($opt, $list);
+        \ZendModelWhiteListHelper::fieldValueNullToEmpty($opt);
 
         $select = $this->getDbSelect();
 

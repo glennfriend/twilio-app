@@ -1,10 +1,9 @@
 <?php
 namespace App\Utility\Identity;
 
-use Bridge\Session as Session;
-use App\Utility\Identity\UserManager as UserManager;
-use App\Model\User as User;
-use App\Model\Users as Users;
+use Bridge\Session;
+use App\Utility\Identity\UserManager;
+use App\Model\Users;
 
 /**
  * Admin UserIdentity represents the data needed to identity a user.
@@ -14,27 +13,16 @@ use App\Model\Users as Users;
 class UserIdentity
 {
     /**
-     *  error code
-     *  -1  not validate
-     *   1  account empty
-     *   2  password empty
-     *   0  success
-     */
-    protected $_errorCode = -1;
-
-    /**
      * Authenticates a user.
      * @return boolean whether authentication succeeds.
      */
     public function authenticate( $account, $password )
     {
         if( !isset($account) ) {
-            $this->_errorCode = 1;
             return false;
         }
 
         if( !isset($password) ) {
-            $this->_errorCode = 2;
             return false;
         }
 
@@ -43,8 +31,6 @@ class UserIdentity
         if( !$user ) {
             return false;
         }
-
-        $this->_errorCode = 0;
 
         // setting basic config
         Session::set('account_id', $user->getId() );
@@ -60,16 +46,6 @@ class UserIdentity
             UserManager::setDebugMode(true);
         }
         return true;
-    }
-
-    /**
-     * get error code
-     * @return int
-     */
-    public function getErrorCode()
-    {
-        exit; // 從未使用
-        return $this->_errorCode;
     }
 
     /**
@@ -94,4 +70,3 @@ class UserIdentity
     }
 
 }
-
