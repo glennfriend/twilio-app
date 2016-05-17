@@ -48,7 +48,7 @@ class Auth extends PublicPageController
     protected function logout()
     {
         UserIdentity::logout();
-        return redirect('/');
+        return redirect('/login');
     }
 
 }

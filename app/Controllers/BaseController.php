@@ -98,8 +98,11 @@ class BaseController
      */
     private function baseLoader()
     {
+        // 在 controler 之中可以使用登入者的資料 $authUser 
+        $this->authUser = UserManager::getUser();
+
         // 在 template 之中可以使用登入者的資料 $authUser 
-        $this->assignParam('authUser', UserManager::getUser());
+        $this->assignParam('authUser', $this->authUser);
     }
 
     /**
