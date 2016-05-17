@@ -233,7 +233,7 @@ class PageLimit
     public function generateBaseUri()
     {
         if (!$this->_customUrl) {
-            return Yii::app()->createUrl($this->_baseUrl);
+            return url($this->_baseUrl);
         } else {
             return $this->generateCustomUrl();
         }
@@ -261,21 +261,26 @@ class PageLimit
      *  產生 google SEO
      *
      *  example:
-     *      <link rel="canonical" href="/path/list.php" />
-     *      <link rel="prev"      href="/path/list.php/5" />
-     *      <link rel="next"      href="/path/list.php/7" />
+     *      <link rel="canonical" href="/path/list.php"     />
+     *      <link rel="prev"      href="/path/list.php/5"   />
+     *      <link rel="next"      href="/path/list.php/7"   />
      *
      */
     public function generateSeo()
     {
-        Yii::app()->clientScript->registerLinkTag('canonical', null, $this->generateUri(1));
+        // 未處理
+        /*
+            $currentUrl = $this->generateUri(1);
+            $prevUrl    = '';
+            $nextUrl    = '';
 
-        $page = $this->getPage();
-        if ($page > 1) {
-            Yii::app()->clientScript->registerLinkTag('prev', null, $this->generateUri($page-1));
-        }
-        if ($page < $this->getTotalPage()) {
-            Yii::app()->clientScript->registerLinkTag('next', null, $this->generateUri($page+1));
-        }
+            $page = $this->getPage();
+            if ($page > 1) {
+                $prevUrl = $this->generateUri($page-1);
+            }
+            if ($page < $this->getTotalPage()) {
+                $nextUrl = $this->generateUri($page+1);
+            }
+        */
     }
 }

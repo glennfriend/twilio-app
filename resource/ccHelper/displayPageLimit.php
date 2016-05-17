@@ -5,7 +5,7 @@
  */
 function ccHelper_displayPageLimit($pageLimit, $showPageInfo=false)
 {
-    if ( is_object($pageLimit) ) {
+    if (is_object($pageLimit)) {
 
         $paginationInfo = '';
         if( $pageLimit->getTotalPage() > 1 ) {
