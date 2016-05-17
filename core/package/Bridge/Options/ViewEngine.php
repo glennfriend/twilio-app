@@ -1,7 +1,7 @@
 <?php
 namespace Bridge\Options;
 
-class ViewNormal
+class ViewEngine
 {
     // --------------------------------------------------------------------------------
     // 
@@ -9,7 +9,7 @@ class ViewNormal
     /**
      *  設定檔
      */
-    protected $config = [];
+    private $_config = [];
 
     /**
      *  init
@@ -22,7 +22,7 @@ class ViewNormal
         if (!file_exists($config['view_path'])) {
             throw new \Exception('ViewNormal error: view path not exist');
         }
-        $this->config['view_path'] = $config['view_path'];
+        $this->_config['view_path'] = $config['view_path'];
     }
 
     /**
@@ -30,7 +30,7 @@ class ViewNormal
      */
     public function getPath()
     {
-        return $this->config['view_path'];
+        return $this->_config['view_path'];
     }
 
     // --------------------------------------------------------------------------------
@@ -39,14 +39,14 @@ class ViewNormal
     /**
      *  自訂義的參數 儲存參數
      */
-    protected $data;
+    private $_data;
 
     /**
      *  自訂義的參數 設定
      */
     public function set($key, $value)
     {
-        $this->data[$key] = $value;
+        $this->_data[$key] = $value;
     }
 
     /**
@@ -54,8 +54,8 @@ class ViewNormal
      */
     public function get($key, $defaultValue=null)
     {
-        if (isset($this->data[$key])) {
-            return $this->data[$key];
+        if (isset($this->_data[$key])) {
+            return $this->_data[$key];
         }
         return $defaultValue;
     }

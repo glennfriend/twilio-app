@@ -1,20 +1,23 @@
 <?php
 namespace Bridge;
 
-// TODO: 下面這樣的寫法是無法抽出 view 的, 請正確處理程式碼
-
+/**
+ *  View 的部份, 必須針對每一種 Engine 做不同的處理
+ *  雖然沒辦法做完全的無縫抽換, 但是可以盡量做到大部份的封裝
+ */
 class View
 {
-
-    protected static $engine;
+    /**
+     *
+     */
+    protected static $_engine;
 
     /**
-     *  request init
+     *  init
      */
     public static function init($config=[])
     {
-      //self::$engine = new Options\ViewTwig($config);
-        self::$engine = new Options\ViewNormal($config);
+        self::$_engine = new Options\ViewEngine($config);
     }
 
     /**
@@ -22,7 +25,7 @@ class View
      */
     public static function getLayout()
     {
-        return self::$engine->get('layout');
+        return self::$_engine->get('layout');
     }
 
     /**
@@ -30,24 +33,7 @@ class View
      */
     public static function setLayout($layout)
     {
-        self::$engine->set('layout', $layout);
-    }
-
-    /**
-     *  僅供給 controller 使用的 render()
-     *  用來產生最後有帶 layout 的 view
-     */
-    public static function render($templateName, $params)
-    {
-        return self::$engine->render($templateName, $params);
-    }
-
-    /**
-     *  代入樣版名稱, 來取得完整的檔案路徑
-     */
-    public static function getPathFile($templateName)
-    {
-        return self::$engine->getPathFile($templateName);
+        self::$_engine->set('layout', $layout);
     }
 
     /**
@@ -56,13 +42,27 @@ class View
      */
     public static function assingViewParam($key, $value)
     {
-        // TODO: 必須修正以下的做法
-
-        // 黑名單
-        if (in_array($key,['config','data'])) {
-            return;
+        if ('_' == substr($key,0,1)) {
+            throw new \Exception('View Engine assingViewParam key error: ' . $key);
         }
-        self::$engine->$key = $value;
+        self::$_engine->$key = $value;
+    }
+
+    /**
+     *  僅供給 controller 使用的 render()
+     *  用來產生最後有帶 layout 的 view
+     */
+    public static function render($templateName, $params)
+    {
+        return self::$_engine->render($templateName, $params);
+    }
+
+    /**
+     *  代入樣版名稱, 來取得完整的檔案路徑
+     */
+    public static function getPathFile($templateName)
+    {
+        return self::$_engine->getPathFile($templateName);
     }
 
 }
