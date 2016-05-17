@@ -1,0 +1,64 @@
+
+    <form id="form-index" class="form-inline" method="post">
+
+        <input type="hidden" name="page" value="<?php echo $pageLimit->getPage(); ?>" />
+
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="pull-left">
+                    <div class="btn-toolbar" role="toolbar" aria-label="...">
+                    <?php
+                        foreach ($allActions as $tmp) {
+                            list($name, $key) = $tmp;
+                            $url = url('/me-logs', ['actions'=>$key]);
+                            $active = ($key==$actionsKey) ? 'active' : '';
+                            echo '<a href="'. $url. '" class="btn btn-secondary '. $active .'">'. $name.'</a>';
+                        }
+                    ?>
+                    </div>
+                </div>
+                <div class="pull-right">
+                    <?php echo cc('displayPageInfo',  $pageLimit ); ?>
+                </div>
+            </div>
+        </div>
+        <p></p>
+
+        <table id="table-index" class="table table-striped table-bordered table-sm">
+            <thead>
+                <tr>
+                    <th>Id          </th>
+                    <th>Actions     </th>
+                    <th>Content     </th>
+                    <th>Ip          </th>
+                    <th>Create Time </th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($userLogs as $userLog) {
+
+                $view = array();
+                $view['id']         = $userLog->getId();
+                $view['actions']    = cc('escape', $userLog->getActions() );
+                $view['content']    = cc('escape', $userLog->getContent() );
+                $view['ip']         = cc('escape', $userLog->getIp() );
+                $view['createTime'] = cc('datetime', $userLog->getCreateTime() );
+
+                echo <<<EOD
+                    <tr>
+                        <td>{$view['id']}</td>
+                        <td>{$view['actions']}</td>
+                        <td>{$view['content']}</td>
+                        <td>{$view['ip']}</td>
+                        <td>{$view['createTime']}</td>
+                    </tr>
+EOD;
+
+            } ?>
+            </tbody>
+        </table>
+
+    </form>
+
+    <?php echo cc('displayPageLimit', $pageLimit ); ?>

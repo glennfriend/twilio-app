@@ -2,10 +2,13 @@
 namespace App\Controllers\Me;
 
 use App\Controllers\AdminPageController;
-use App\Utility\Output\MenuManager as MenuManager;
-use App\Utility\Output\FormMessageManager as FormMessageManager;
-use App\Model\Users as Users;
-use App\Model\User as User;
+use App\Utility\Output\MenuManager;
+use App\Utility\Output\FormMessageManager;
+use App\Utility\Output\PageLimit;
+use App\Model;
+use App\Model\Users;
+use App\Model\UserLogs;
+use App\Model\UserLogHelper;
 use Bridge\Input as Input;
 
 /**
@@ -77,7 +80,7 @@ class Home extends AdminPageController
             else {
                 $users = new Users();
                 $users->updateUser($user);
-                // UserLogHelper::addChangePassword();
+                UserLogHelper::addChangePassword($user->getId());
                 FormMessageManager::addSuccessResultMessage('Modify Success');
                 return redirect('/me');
             }
@@ -93,11 +96,40 @@ class Home extends AdminPageController
     protected function showLogs()
     {
         MenuManager::setSub('me-logs');
-        $actions = Input::get('actions');
 
-        $this->render('me.home.showLogs');
+        $page       = (int) Input::get('page');
+        $actions    = Input::get('actions');
+
+        $allActions = [
+            ['All',             null                            ],
+            ['Log in + out',    'login-success,logout-success'  ],
+            ['Log In Fail',     'login-fail'                    ],
+            ['Password Change', 'password-update'               ],
+        ];
+
+        $options = array_filter(array(
+            'userId'    => $this->authUser->getId(),
+            'actions'   => $actions,
+            '_page'     => $page
+        ));
+        $userLogs   = new UserLogs();
+        $myUserLogs = $userLogs->findUserLogs($options);
+        $rowCount   = $userLogs->numFindUserLogs($options);
+
+        $pageLimit = new PageLimit();
+        $pageLimit->setBaseUrl('/me-logs');
+        $pageLimit->setRowCount($rowCount);
+        $pageLimit->setPage($page);
+        $pageLimit->setparams([
+            'actions' => $actions,
+        ]);
+
+        $this->render('me.home.showLogs', [
+            'userLogs'  => $myUserLogs,
+            'pageLimit' => $pageLimit,
+            'actionsKey' => $actions,
+            'allActions' => $allActions,
+        ]);
     }
-
-
 
 }
