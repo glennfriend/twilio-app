@@ -30,7 +30,7 @@ class PageLimit
     /**
      *  設定每頁幾筆資料
      */
-    public function setPageShowCount( $pageShowCount )
+    public function setPageShowCount($pageShowCount)
     {
         $this->_pageShowCount = (int) $pageShowCount;
     }
@@ -43,7 +43,7 @@ class PageLimit
     /**
      *  設定資料總筆數
      */
-    public function setRowCount( $rowCount )
+    public function setRowCount($rowCount)
     {
         $this->_rowCount = (int) $rowCount;
     }
@@ -58,17 +58,17 @@ class PageLimit
      */
     public function getTotalPage()
     {
-        if ( $this->_pageShowCount <=0 ) {
+        if ($this->_pageShowCount <=0) {
             return 1;
         }
-        $totalPage = ceil( $this->_rowCount / $this->_pageShowCount );
-        return ( $totalPage <= 0 ? 1 : $totalPage );
+        $totalPage = ceil($this->_rowCount / $this->_pageShowCount);
+        return ($totalPage <= 0 ? 1 : $totalPage);
     }
 
     /**
      *  設定現在在第幾頁
      */
-    public function setPage( $page )
+    public function setPage($page)
     {
         if ($page<1) {
             $page = 1;
@@ -85,9 +85,9 @@ class PageLimit
      */
     public function setParams($params)
     {
-        $allowParams = Array();
-        foreach( $params as $key => $value ) {
-            if( $value ) {
+        $allowParams = array();
+        foreach ($params as $key => $value) {
+            if ($value) {
                 $allowParams[ $key ] = $value;
             }
         }
@@ -105,9 +105,9 @@ class PageLimit
     /**
      *  設定參數
      */
-    public function getParam( $key )
+    public function getParam($key)
     {
-        if( isset($this->_params[$key]) ) {
+        if (isset($this->_params[$key])) {
             return $this->_params[$key];
         }
         return null;
@@ -115,13 +115,13 @@ class PageLimit
 
 
     // --------------------------------------------------------------------------------
-    // 
+    //
     // --------------------------------------------------------------------------------
 
     /**
      *  設定 自訂義 的 url format
      */
-    public function setCustomUrlFormat( $url )
+    public function setCustomUrlFormat($url)
     {
         return $this->_customUrl = $url;
     }
@@ -138,23 +138,23 @@ class PageLimit
      *      參數為 {name} , 例如 {searchKey}
      *
      */
-    public function generateCustomUrl( $params )
+    public function generateCustomUrl($params)
     {
         $customUrl = $this->_customUrl;
-        foreach( $params as $key => $value ) {
-            if( !$value ) {
+        foreach ($params as $key => $value) {
+            if (!$value) {
                 continue;
             }
             $fromString = '{'. $key .'}';
             $toString   = $value;
-            $customUrl  = str_replace( $fromString, $toString, $customUrl );
+            $customUrl  = str_replace($fromString, $toString, $customUrl);
         }
 
         // 對 page 參數做特殊處理
-        $customUrl = str_replace('&page={page}', '', $customUrl );
-        $customUrl = str_replace('page={page}',  '', $customUrl );
-        $customUrl = str_replace('/{page}',      '', $customUrl );
-        $customUrl = str_replace('{page}',       '', $customUrl );
+        $customUrl = str_replace('&page={page}', '', $customUrl);
+        $customUrl = str_replace('page={page}',  '', $customUrl);
+        $customUrl = str_replace('/{page}',      '', $customUrl);
+        $customUrl = str_replace('{page}',       '', $customUrl);
         $customUrl = rtrim($customUrl, '&');
         $customUrl = rtrim($customUrl, '?');
         return $customUrl;
@@ -164,7 +164,7 @@ class PageLimit
     /**
      *  需要 url manager 來產生網址
      */
-    function setBaseUrl($baseUrl)
+    public function setBaseUrl($baseUrl)
     {
         $this->_baseUrl = $baseUrl;
     }
@@ -175,47 +175,44 @@ class PageLimit
      */
     public function render()
     {
-
         $start = $this->_page - $this->_gap;
         $end   = $this->_page + $this->_gap;
-        if( $start<1 ) {
+        if ($start<1) {
             $start=1;
         }
 
         $maxPage = $this->getTotalPage();
-        if( $end>$maxPage ) {
+        if ($end>$maxPage) {
             $end=$maxPage;
         }
 
-        if( $this->_rowCount <= $this->_pageShowCount ) {
+        if ($this->_rowCount <= $this->_pageShowCount) {
             return '';
         }
 
 
         $html = '';
-        if( 1 != $this->_page ) {
+        if (1 != $this->_page) {
             $html .= '<li class="page-item"><a class="page-link" href="'. $this->generateUri($this->_page-1) .'">&laquo; Prev</a></li>';
-        }
-        else {
+        } else {
             $html .= '<li class="page-item disabled"><a class="page-link">&laquo; Prev</a></li>';
         }
 
-        if( $maxPage != $this->_page ) {
+        if ($maxPage != $this->_page) {
             $html .= '<li class="page-item"><a class="page-link" href="'. $this->generateUri($this->_page+1) .'">Next &raquo;</a></li>';
-        }
-        else {
+        } else {
             $html .= '<li class="page-item disabled"><a class="page-link">Next &raquo;</a></li>';
         }
 
-        for( $i=$start; $i<=$end ; $i++ ) {
+        for ($i=$start; $i<=$end ; $i++) {
             $active = '';
-            if( $this->_page == $i ) {
+            if ($this->_page == $i) {
                 $active = 'active';
             }
             $html .= '<li class="page-item '. $active .'"><a class="page-link" href="'. $this->generateUri($i) .'">'. $i .'</a></li>';
         }
 
-        if ( $maxPage != $end ) {
+        if ($maxPage != $end) {
             $html .= '<li class="page-item"><a class="page-link" href="'. $this->generateUri($this->getTotalPage()) .'">...'. $this->getTotalPage() .'</a></li>';
         }
 
@@ -235,10 +232,9 @@ class PageLimit
      */
     public function generateBaseUri()
     {
-        if( !$this->_customUrl ) {
-            return Yii::app()->createUrl( $this->_baseUrl );
-        }
-        else {
+        if (!$this->_customUrl) {
+            return Yii::app()->createUrl($this->_baseUrl);
+        } else {
             return $this->generateCustomUrl();
         }
     }
@@ -246,20 +242,18 @@ class PageLimit
     /**
      *  拼出 uri
      */
-    public function generateUri( $page )
+    public function generateUri($page)
     {
-        if( $page>1 ) {
+        if ($page>1) {
             $this->_params['page'] = $page;
-        }
-        else {
-            unset( $this->_params['page'] );
+        } else {
+            unset($this->_params['page']);
         }
 
-        if( !$this->_customUrl ) {
+        if (!$this->_customUrl) {
             return url($this->_baseUrl, $this->_params);
-        }
-        else {
-            return $this->generateCustomUrl( $this->_params );
+        } else {
+            return $this->generateCustomUrl($this->_params);
         }
     }
 
@@ -274,16 +268,14 @@ class PageLimit
      */
     public function generateSeo()
     {
-        Yii::app()->clientScript->registerLinkTag('canonical', null, $this->generateUri(1) );
+        Yii::app()->clientScript->registerLinkTag('canonical', null, $this->generateUri(1));
 
         $page = $this->getPage();
-        if ( $page > 1 ) {
-            Yii::app()->clientScript->registerLinkTag('prev', null, $this->generateUri($page-1) );
+        if ($page > 1) {
+            Yii::app()->clientScript->registerLinkTag('prev', null, $this->generateUri($page-1));
         }
-        if ( $page < $this->getTotalPage() ) {
-            Yii::app()->clientScript->registerLinkTag('next', null, $this->generateUri($page+1) );
+        if ($page < $this->getTotalPage()) {
+            Yii::app()->clientScript->registerLinkTag('next', null, $this->generateUri($page+1));
         }
-
     }
-
 }
