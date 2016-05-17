@@ -32,15 +32,20 @@ class FormMessageManager
 {
 
     /**
+     *
+     */
+    protected static $_bridge = 'Bootstrap4';
+
+    /**
      *  儲存所有的訊息
      */
     protected static $_messages = array();
 
     /**
-     *  設定 多組訊息
+     *  重新設定多組訊息
      *  @param array
      */
-    public static function setFieldMessages( $fieldMessages )
+    public static function setFieldMessages ($fieldMessages)
     {
         self::$_messages = $fieldMessages;
     }
@@ -49,12 +54,14 @@ class FormMessageManager
      *  新增 一組訊息
      *  @param array
      */
-    public static function addFieldMessage( $fieldMessage )
+    public static function addFieldMessage ($fieldMessage)
     {
-        if( !is_array($fieldMessage) ) {
+        if (!is_array($fieldMessage)) {
             return;
         }
-        foreach( $fieldMessage as $field => $value ){}
+        foreach ( $fieldMessage as $field => $value ) {
+            // 只取一組
+        }
         self::$_messages[ $field ] = $value;
     }
 
@@ -62,9 +69,9 @@ class FormMessageManager
      *  取得欄位訊息
      *  @return string or null
      */
-    public static function getFieldMessage( $field )
+    public static function getFieldMessage ($field)
     {
-        if( isset(self::$_messages) &&
+        if (isset(self::$_messages) &&
             isset(self::$_messages[$field])
         ) {
             return self::$_messages[$field];
@@ -73,22 +80,14 @@ class FormMessageManager
     }
 
     /**
-     *  取得該欄狀態 '' or 'error'
-     *
-     *  由於 twitter bootstrap 會需要吃 'error' 的文字訊息
-     *  所以這是特意提供出來給它用的 文字訊息
-     *
-     *  @param string - field key
-     *  @return string
+     *  FormMessageManager 只管理訊息
+     *  要怎麼顯示 theme 請使用另外的 class 處理
      */
-    public static function getFieldStatus( $field )
+    public static function factoryTheme ($field)
     {
-        if( isset(self::$_messages) &&
-            isset(self::$_messages[$field])
-        ) {
-            return 'has-error';
-        }
-        return '';
+        $className = 'App\\Utility\\Output\\FormMessageManager\\' . self::$_bridge;
+        $message = self::getFieldMessage($field);
+        return new $className($field, $message);
     }
 
     /**

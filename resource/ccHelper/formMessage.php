@@ -15,7 +15,7 @@ function ccHelper_formMessage()
     }
     FormMessageManager::clearResultMessages();
 
-    foreach( $resultMessages as $messages ) {
+    foreach ($resultMessages as $messages) {
 
         switch( $messages['type'] ) {
             case 'error':
