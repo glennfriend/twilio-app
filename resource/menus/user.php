@@ -7,7 +7,7 @@
         'main' => [
             'key'       => 'me',
             'label'     => 'User',
-            'link'      => url('/me'),
+            'link'      => url('/me-logs', ['actions' => 'login-success,login-fail']),
             'role'      => '',
         ],
         'sub' => [
@@ -26,7 +26,7 @@
             [
                 'key'       => 'me-logs',
                 'label'     => 'Show Logs',
-                'link'      => url('/me-logs'),
+                'link'      => url('/me-logs', ['actions' => 'login-success,login-fail']),
                 'role'      => '',
             ],
         ],

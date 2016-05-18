@@ -102,9 +102,8 @@ class Home extends AdminPageController
 
         $allActions = [
             ['All',             null                            ],
-            ['Log in + out',    'login-success,logout-success'  ],
-            ['Log In Fail',     'login-fail'                    ],
-            ['Password Change', 'password-update'               ],
+            ['Log in & fail',   'login-success,login-fail'      ],
+            ['Change Passwd',   'password-update'               ],
         ];
 
         $options = array_filter(array(
