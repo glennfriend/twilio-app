@@ -1,5 +1,6 @@
 virtual host (參考)
 
+    // 請盡可能使用 SSL
     // by ubuntu
     vi /etc/apache2/sites-available/default-ssl.conf
 
