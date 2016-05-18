@@ -27,22 +27,17 @@ class AdminUrlManager
         ];
     }
 
-    public static function getBaseUrl()
+    /**
+     *  傳回網站入口基本路徑
+     */
+    public static function getUrl($pathFile='')
     {
-        return self::$data['baseUrl'];
+        return self::$data['baseUrl'] . $pathFile;
     }
 
     public static function getHost()
     {
         return self::$data['host'];
-    }
-
-    /**
-     *  傳回網站基本目錄 uri
-     */
-    public static function getUrl($path)
-    {
-        return self::$data['baseUrl'] .'/'. $pathFile;
     }
 
     /* ================================================================================
