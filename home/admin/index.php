@@ -6,6 +6,8 @@ $app = ProjectHelper::buildApp();
 
 // admin system
 $app->get ('/dashboard',            'App\Controllers\Dashboard\Home:defaultPage');
+
+$app->get ('/system-environment',   'App\Controllers\System\Home:environment');
 $app->get ('/me',                   'App\Controllers\Me\Home:about');
 $app->get ('/me-change-password',   'App\Controllers\Me\Home:changePassword');
 $app->post('/me-change-password',   'App\Controllers\Me\Home:changePassword');

@@ -1,0 +1,63 @@
+
+    <h1>Environment</h1>
+    <hr/>
+
+    <div class="form-group">
+        <label>date_default_timezone_get()</label>
+        <input class="form-control" value="<?php echo date_default_timezone_get(); ?>" readonly>
+    </div>
+
+    <div class="form-group">
+        <label>ini_get('date.timezone')</label>
+        <input class="form-control" value="<?php echo ini_get('date.timezone'); ?>" readonly>
+    </div>
+
+    <div class="form-group">
+        <label>Current</label>
+        <input class="form-control" value="<?php echo date("Y-m-d H:i:s (w)"); ?>" readonly>
+    </div>
+
+    <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-11">
+
+            <?php setTimezone('UTC'); ?>
+            <div class="form-group">
+                <label><?php echo ini_get('date.timezone'); ?></label>
+                <input class="form-control" value="<?php echo date("Y-m-d H:i:s (w)"); ?>" readonly>
+            </div>
+
+            <?php setTimezone('Asia/Taipei'); ?>
+            <div class="form-group">
+                <label><?php echo ini_get('date.timezone'); ?> (UTC+8)</label>
+                <input class="form-control" value="<?php echo date("Y-m-d H:i:s (w)"); ?>" readonly>
+            </div>
+
+            <?php setTimezone('America/Los_Angeles'); ?>
+            <div class="form-group">
+                <label><?php echo ini_get('date.timezone'); ?> (UTC-7)</label>
+                <input class="form-control" value="<?php echo date("Y-m-d H:i:s (w)"); ?>" readonly>
+            </div>
+            <span>★如果以上的 timezone 都相同, 表示主機無法正確設定</span>
+
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Server API</label>
+        <input class="form-control" value="<?php echo php_sapi_name(); ?>" readonly>
+<pre>
+"apache2handler"       => Apache2 + mod_php
+"Apache *.* Handler"   => mod_php
+</pre>
+    </div>
+
+
+<?php
+
+    function setTimezone($timezone)
+    {
+        date_default_timezone_set($timezone);
+        ini_set('date.timezone', $timezone);
+    }
+
