@@ -33,7 +33,6 @@ Options -Indexes
     Satisfy all
 </FilesMatch>
 
-
 ##################################################
 <IfModule mod_rewrite.c>
     RewriteEngine On

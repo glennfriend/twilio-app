@@ -1,0 +1,22 @@
+virtual host (參考)
+
+    // by ubuntu
+    vi /etc/apache2/sites-available/default-ssl.conf
+
+    Alias /twilio-app /var/www/twilio-app/home
+    <Directory "/var/www/twilio-app/home">
+        Options FollowSymLinks
+        AllowOverride All
+        Order allow,deny
+        Allow from all
+    </Directory>
+
+composer
+
+    略
+
+npm
+
+    略
+
+
