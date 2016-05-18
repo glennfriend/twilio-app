@@ -71,7 +71,7 @@ class ViewEngine
      *          - home.auth.login       => /var/www/project/resource/views/home.auth.login.phtml
      *
      *  @param  string 樣版標示名稱
-     *  @return string full path file
+     *  @return string full path file, or empty string
      */
     public function getPathFile($dotName)
     {
@@ -80,7 +80,9 @@ class ViewEngine
         $dots = explode('.', $dotName);
         foreach ($dots as $name) {
             if (!preg_match('/^[a-z_][a-zA-Z0-9_-]+$/', $name)) {
-                throw new \Exception("Error: template name is wrong! ===> [{$dotName}]");
+                // 不正確的樣板名稱
+                return '';
+                // throw new \Exception("Error: template name is wrong! ===> [{$dotName}]");
             }
         }
 
