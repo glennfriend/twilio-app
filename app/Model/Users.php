@@ -139,7 +139,7 @@ class Users extends \ZendModel
         if( !$object->validatePassword($password)) {
             return array();
         }
-        if( User::STATUS_OPEN !== $object->getStatus() ) {
+        if( User::STATUS_ENABLED !== $object->getStatus() ) {
             return array();
         }
         return $object;
@@ -308,7 +308,7 @@ class Users extends \ZendModel
     public static function getUsersByRuleName($ruleName)
     {
         $fields = array_filter([
-            'status' => USER::STATUS_OPEN,
+            'status' => USER::STATUS_ENABLED,
         ]);
         $options = [
             'page'  => -1,

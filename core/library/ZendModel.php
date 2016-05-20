@@ -211,7 +211,7 @@ class ZendModel
      */
     public function query($select)
     {
-        return $this->_query($select, self::SERVER_TYPE_MASTER);
+        return $this->_query($select, ZendModel::SERVER_TYPE_MASTER);
     }
 
     /**
@@ -219,7 +219,7 @@ class ZendModel
      */
     public function querySlave($select)
     {
-        return $this->_query($select, self::SERVER_TYPE_SLAVE);
+        return $this->_query($select, ZendModel::SERVER_TYPE_SLAVE);
     }
 
     /**
@@ -227,10 +227,10 @@ class ZendModel
      */
     protected function _query($select, $serverType)
     {
-        if (self::SERVER_TYPE_MASTER === $serverType) {
+        if (ZendModel::SERVER_TYPE_MASTER === $serverType) {
             $adapter = $this->getAdapter();
         }
-        elseif (self::SERVER_TYPE_SLAVE === $serverType) {
+        elseif (ZendModel::SERVER_TYPE_SLAVE === $serverType) {
             $adapter = $this->getSlaveAdapter();
         }
         else {
@@ -283,7 +283,7 @@ class ZendModel
         if (UserManager::isDebugMode() || 'training' === conf('app.env'))
         {
             // log
-            self::getLog()->sql($sql, self::SERVER_TYPE_MASTER);
+            self::getLog()->sql($sql, ZendModel::SERVER_TYPE_MASTER);
 
             // developer tool
             // MonitorManager::executeQuery( $write->getSqlString( $adapter->getPlatform() ) );
@@ -480,9 +480,9 @@ class ZendModel
         $page         = isset($opt['page'])        ? $opt['page']        : 1  ;
         $itemsPerPage = isset($opt['perPage'])     ? $opt['perPage']     : conf('db.per_page');
 
-        $serverType = self::SERVER_TYPE_MASTER;
-        if (isset($opt['serverType']) && self::SERVER_TYPE_SLAVE===$opt['serverType']) {
-            $serverType = self::SERVER_TYPE_SLAVE;
+        $serverType = ZendModel::SERVER_TYPE_MASTER;
+        if (isset($opt['serverType']) && ZendModel::SERVER_TYPE_SLAVE===$opt['serverType']) {
+            $serverType = ZendModel::SERVER_TYPE_SLAVE;
         }
 
         if ($orderBy) {
@@ -518,9 +518,9 @@ class ZendModel
      */
     protected function numFindObjects(Zend\Db\Sql\Select $select, $opt=[])
     {
-        $serverType = self::SERVER_TYPE_MASTER;
-        if ( isset($opt['serverType']) && $opt['serverType']===self::SERVER_TYPE_SLAVE ) {
-            $serverType = self::SERVER_TYPE_SLAVE;
+        $serverType = ZendModel::SERVER_TYPE_MASTER;
+        if (isset($opt['serverType']) && $opt['serverType']===ZendModel::SERVER_TYPE_SLAVE) {
+            $serverType = ZendModel::SERVER_TYPE_SLAVE;
         }
 
         $param = 'count(*)';

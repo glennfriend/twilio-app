@@ -11,10 +11,10 @@ use App\Library\Encrypt\Pbkdf2 as Pbkdf2;
 class User extends \BaseObject
 {
 
-    const STATUS_ALL    = -1;
-    const STATUS_CLOSE  = 0;
-    const STATUS_OPEN   = 1;
-    const STATUS_DELETE = 9;
+    const STATUS_ALL        = -1;
+    const STATUS_DISABLED   = 0;
+    const STATUS_ENABLED    = 1;
+    const STATUS_DELETE     = 9;
 
     /**
      *  請依照 table 正確填寫該 field 內容
@@ -65,7 +65,7 @@ class User extends \BaseObject
                 'filters' => array('intval'),
                 'storage' => 'getStatus',
                 'field'   => 'status',
-                'value'   => self::STATUS_CLOSE,
+                'value'   => User::STATUS_DISABLED,
             ),
             'createTime' => array(
                 'type'    => 'timestamp',
