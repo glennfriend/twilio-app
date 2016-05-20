@@ -6,11 +6,9 @@ use App\Library\Encrypt\Pbkdf2 as Pbkdf2;
 
 /**
  *  User
- *
  */
 class User extends \BaseObject
 {
-
     const STATUS_ALL        = -1;
     const STATUS_DISABLED   = 0;
     const STATUS_ENABLED    = 1;
@@ -212,7 +210,7 @@ class User extends \BaseObject
     {
         $username = $this->getProperty('username');
         if (!$username) {
-            $username = preg_replace('/[^a-zA-Z0-9\.]+/', '', $this->getAccount() );
+            $username = preg_replace('/[^a-zA-Z0-9\.]+/', '', $this->getAccount());
             $username = str_replace('.', ' ', $username);
             $username = ucwords($username);
         }
