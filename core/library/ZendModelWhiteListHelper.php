@@ -4,121 +4,170 @@
  *  代入特定的 white-list array 
  *  將會處理裡面的參數
  *
+ *  欄位格式
+ *      [
+ *          'id'        => 5,
+ *          'orderId'   => 10,
+ *      ]
+ *
  *  白名單格式 $whiteList example
-  *      array(
- *          'field' => [
- *              'id'            => 'order_item.id',
- *              'orderId'       => 'order_item.order_id',
- *              'status'        => 'order_item.status',
- *              'sku'           => 'order_item.sku',
- *              'orderId'       => 'order.order_number',
- *              'orderNumber'   => 'order.order_number',
- *          ],
- *          'option' => [
- *              '_order',
- *              '_page',
- *              '_itemsPerPage',
- *          ]
- *      );
+ *      [
+ *          'id'            => 'order_item.id',
+ *          'orderId'       => 'order_item.order_id',
+ *          'status'        => 'order_item.status',
+ *          'sku'           => 'order_item.sku',
+ *          'orderId'       => 'order.order_number',
+ *          'orderNumber'   => 'order.order_number',
+ *      ]
+ *
+ *  options 格式
+ *      [
+ *          'order',
+ *          'page',
+ *          'perPage',
+ *          'serverType',
+ *      ]
  *
  */
 class ZendModelWhiteListHelper
 {
+    /**
+     *  處理特定封裝的資料格式
+     *  處理資料後, 產出合乎規格的資料資料格式
+     */
+    public static function perform(& $fields, $mappingNameToField, & $options)
+    {
+        \ZendModelWhiteListHelper::validateFields($fields, $mappingNameToField);
+      //\ZendModelWhiteListHelper::convertFieldValueNullToEmpty($fields);
+        \ZendModelWhiteListHelper::validateOptions($options);
+        \ZendModelWhiteListHelper::convertOptionOrder($mappingNameToField, $options);
+    }
 
     /**
      *  如果代入的欄位不在白名單, 會 trigger error
+     *  這是一個 developer 的工具程式
+     *
+     *  @param array $fields,    標準欄位格式
+     *  @param array $allowList, 予許的欄位白名單
+     */
+    public static function validateFields(Array $fields, Array $allowList)
+    {
+        foreach ($fields as $name => $value) {
+            if (!in_array($name, array_keys($allowList))) {
+                $show = preg_replace("/[^a-zA-Z0-9_]+/", '', $name);
+                trigger_error("Custom Model Error: field not found '{$show}'", E_USER_ERROR);
+            }
+        }
+    }
+
+    /**
+     *  如果代入的選項不在白名單, 會 trigger error
+     *  這是一個 developer 的工具程式
      *
      *  @param array $options, 標準欄位格式
      *  @param array $allowFields, 予許的欄位白名單
      */
-    public static function validateFields( Array $option, Array $whiteList )
+    public static function validateOptions(Array $options)
     {
-        foreach ( $option as $field => $value) {
-            if ( !in_array($field, array_keys($whiteList['fields'])) &&
-                 !in_array($field, $whiteList['option'] )
-            ) {
-                $field = preg_replace("/[^a-zA-Z0-9_]+/", '', $field );
-                trigger_error("Custom Model Error: field not found '{$field}'", E_USER_ERROR);
+        $allowList = [
+            'order',
+            'page',
+            'perPage',
+            'serverType',
+        ];
+        foreach ($options as $name => $value) {
+            if (!in_array($name, $allowList)) {
+                $show = preg_replace("/[^a-zA-Z0-9_]+/", '', $name);
+                trigger_error("Custom Model Error: option not found '{$show}'", E_USER_ERROR);
             }
         }
     }
 
     /**
      *  將陣列資料的 null 轉換為 空字串
+     *  在我們的寫法規範, null 值視為 "不處理的 SQL"
+     *      "name" => null
+     *      --> 不處理
+     *
+     *  但是空值是 "要處理的 SQL"
+     *      "name" => ""
+     *      --> name = ""
+     *
+     *  by reference
      *
      *  @param array $options, 標準欄位格式
-     *  @return array
      */
-    public static function fieldValueNullToEmpty( Array & $options )
+    /*
+    public static function convertFieldValueNullToEmpty(Array & $fields)
     {
-        foreach ( $options as $field => $value) {
-            if ( is_null($options[$field]) ) {
-                $options[$field] = '';
+        foreach ($fields as $field => $value) {
+            if ( is_null($fields[$field]) ) {
+                $fields[$field] = '';
             }
         }
     }
+    */
 
     /**
-     *  filter order-by string
+     *  convert order-by array to string
+     *  by reference
+     *
      *  如果欄位名稱沒包含在白名單內
-     *  則 unset() 這筆資料
+     *  會觸發例外 Exception
      *
      *  該程式 會 區分大寫小
      *
      *  order-by example:
-     *      array(
-     *          "_order" => "id,asc,userName,desc"
-     *      )
-     *      --output--
-     *      array(
-     *          "_order" => 'id ASC, user_name DESC',
-     *      )
      *
-     *  filter example:
-     *      array(
-     *          "_order" => "order_number desc"
-     *      )
-     *      , array(
-     *          "order_id",
-     *          "order_number", => 將會予許 order_number 通過
-     *      )
+     *      ['order] => [
+     *          'id'        => 'asc',
+     *          'user_name' => 'desc',
+     *      ]
+     *
+     *  convert to
+     *
+     *      ['orderString'] => 'id ASC, user_name DESC',
      *
      *  @return array
      */
-    public static function filterOrder(Array & $option, Array $whiteList, $name='_order')
+    public static function convertOptionOrder(Array $whiteList, Array & $options)
     {
+        // validate order key
+        $orderKey = 'order';
+
         // 如果欄位不存在, 則不處理
-        if ( !isset($option[$name]) ) {
-            return $option;
+        if ( !isset($options[$orderKey]) ) {
+            return $options;
         }
-        $orderBy = explode(',', trim( $option[$name] ) );
+        $orderItems = $options[$orderKey];
 
-        // 省略的排序方式, 預設值為 asc
-        if (0 !== count($orderBy)%2) {
-            $orderBy[count($orderBy)] = 'ASC';
+        // 必須是 array
+        if ( !is_array($options[$orderKey]) ) {
+            throw new Exception('Error, Model order-by need is array');
         }
 
-        $count = count($orderBy);
-        $orderItems = [];
-        for ($i=0; $i<$count; $i+=2) {
-
-            $field = $orderBy[$i];
-            $order = $orderBy[$i+1];
-
-            // field
-            if ( !in_array( $field, array_keys($whiteList['fields']) ) ) {
-                throw new Exception('Error, Model order-by have non-allow field: ['. $filed . ']');
+        // validate name
+        foreach ($orderItems as $name => $value) {
+            if (!in_array($name, array_keys($whiteList))) {
+                throw new Exception('Error, Model order-by non-allow field: ['. $name . ']');
             }
-
-            // order by
-            if ( 'desc' != strtolower($order) ) {
-                $order = 'ASC';
-            }
-
-            $orderItems[] = $whiteList['fields'][$field].' '.$order;
         }
 
-        $option[$name] = join(', ', $orderItems);
+        // render SQL order-by string
+        $results = [];
+        foreach ($orderItems as $name => $value) {
+            switch (strtolower($value)) {
+                case 'asc':
+                case 'desc':
+                    break;
+                default:
+                    throw new Exception('Error, Model order-by value need is ASC or DESC');
+            }
+            $results[] = $whiteList[$name] . ' ' . $value;
+        }
+        $orderString = join(',', $results);
+
+        $options['orderString'] = $orderString;
     }
 
 

@@ -1,6 +1,11 @@
 <?php
 
 use App\Utility\Identity\UserManager;
+// use Zend\Db\Sql\Select;
+// use Zend\Db\Sql\Insert;
+// use Zend\Db\Sql\Update;
+// use Zend\Db\Sql\Delete;
+
 
 /*
     Zend Db sample:
@@ -68,32 +73,11 @@ class ZendModel
     }
 
     /**
-     *  請改用 "getExecuteError()"
-     *  @return error info array
-     */
-    public function getError()
-    {
-        // 不再使用, 這是警告訊息
-        echo '6235623523465532476534265346534643';
-        exit;
-
-        if (!$this->error) {
-            return array(
-                'is_error' => false,
-                'message'  => '',
-            );
-        }
-        return array(
-            'is_error'  => true,
-            'message'   => $this->error['exception']->getMessage(),
-        );
-    }
-
-    /**
      *  get model error message
      *      - 如果有 自定義錯誤訊息, 就回傳該訊息
      *      - 如果有 exception 訊息, 就回傳該訊息
-     *      - 沒有就傳回 null
+     *      - 如果有 update fail 的 update_message 訊息, 就回傳該訊息
+     *      - 沒有就傳回預設內置的錯誤訊息
      *
      *  @return error-message|null
      */
@@ -108,6 +92,9 @@ class ZendModel
         if (isset($this->error['exception'])) {
             return $this->error['exception']->getMessage();
         }
+        if (isset($this->error['update_message'])) {
+            return $this->error['update_message'];
+        }
         return 'Unknown model error';
     }
 
@@ -116,9 +103,10 @@ class ZendModel
      */
     protected function setModelErrorMessage($message)
     {
-        $this->error = [
-            'message' => $message
-        ];
+        if (!$this->error) {
+            $this->error = [];
+        }
+        $this->error['message'] = $message;
     }
 
     // --------------------------------------------------------------------------------
@@ -363,7 +351,11 @@ class ZendModel
         $update->set($row);
 
         $result = $this->execute($update);
-        if( !$result ) {
+        if (!$result) {
+            if (!$this->error) {
+                $this->error = [];
+            }
+            $this->error['update_message'] = 'Update fail';
             return false;
         }
         return $result->count();
@@ -475,29 +467,28 @@ class ZendModel
     }
 
     /**
-     *  find option
+     *  find objects
      *  這裡可以選擇 adapter 使用 "master" or "slave"
      *
      *  @param $select   - Zend\Db\Sql\Select
-     *  @param $option   - option array
+     *  @param $opt      - option array
      *  @return objects or empty array
      */
-    protected function findObjects( $select, $option=array() )
+    protected function findObjects(Zend\Db\Sql\Select $select, $opt=[])
     {
-        $orderBy      = isset($option['_order'])        ? $option['_order']        : '' ;
-        $page         = isset($option['_page'])         ? $option['_page']         : 1  ;
-        $itemsPerPage = isset($option['_itemsPerPage']) ? $option['_itemsPerPage'] : conf('db.items_per_page');
+        $orderBy      = isset($opt['orderString']) ? $opt['orderString'] : '' ;
+        $page         = isset($opt['page'])        ? $opt['page']        : 1  ;
+        $itemsPerPage = isset($opt['perPage'])     ? $opt['perPage']     : conf('db.per_page');
 
         $serverType = self::SERVER_TYPE_MASTER;
-        if ( isset($option['_serverType']) && self::SERVER_TYPE_SLAVE===$option['_serverType'] ) {
+        if (isset($opt['serverType']) && self::SERVER_TYPE_SLAVE===$opt['serverType']) {
             $serverType = self::SERVER_TYPE_SLAVE;
         }
 
-
-        if ( $orderBy ) {
+        if ($orderBy) {
             $select->order( trim($orderBy) );
         }
-        if( -1 !== $page ) {
+        if(-1 !== $page) {
             $page = (int) $page;
             if( $page == 0 ) {
                 $page = 1;
@@ -522,13 +513,13 @@ class ZendModel
      *  get row count
      *
      *  @param $condition - sql condition
-     *  @param $option    - option array
+     *  @param $opt       - option array
      *  @return int
      */
-    protected function numFindObjects( $select, $option=array() )
+    protected function numFindObjects(Zend\Db\Sql\Select $select, $opt=[])
     {
         $serverType = self::SERVER_TYPE_MASTER;
-        if ( isset($option['_serverType']) && $option['_serverType']===self::SERVER_TYPE_SLAVE ) {
+        if ( isset($opt['serverType']) && $opt['serverType']===self::SERVER_TYPE_SLAVE ) {
             $serverType = self::SERVER_TYPE_SLAVE;
         }
 

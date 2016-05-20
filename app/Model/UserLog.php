@@ -7,6 +7,17 @@ use App\Model\UserLogs;
 /**
  *  UserLog
  *
+ *  這裡要記錄的, 是跟該 user 相關的行為
+ *  只要跟該 user 有關的, 都可以記錄
+ *  不是該 user 操作的行為; 但是確跟該 user 有關, 也可以記錄
+ *  當然, 也可以選擇不記錄, 視情況而定
+ *
+ *  以 user ken 為例
+ *      - 我 (ken) 自己改了自己的密碼
+ *      - manager vivian 改了我 (ken) 的密碼
+ *      - 我 (ken) 忘記密碼, 系統幫我重新設定了一組密碼
+ *      - 我 (ken) 寄了信件給 vivian
+ *
  */
 class UserLog extends \BaseObject
 {

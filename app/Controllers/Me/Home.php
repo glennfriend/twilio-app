@@ -106,14 +106,19 @@ class Home extends AdminPageController
             ['Change Passwd',   'password-update'               ],
         ];
 
-        $options = array_filter(array(
+        $fields = array_filter([
             'userId'    => $this->authUser->getId(),
             'actions'   => $actions,
-            '_page'     => $page
-        ));
+        ]);
+        $options = [
+            'page' => $page,
+            'order' => [
+                'userId' => 'desc',
+            ],
+        ];
         $userLogs   = new UserLogs();
-        $myUserLogs = $userLogs->findUserLogs($options);
-        $rowCount   = $userLogs->numFindUserLogs($options);
+        $myUserLogs = $userLogs->findUserLogs($fields, $options);
+        $rowCount   = $userLogs->numFindUserLogs($fields, $options);
 
         $pageLimit = new PageLimit();
         $pageLimit->setBaseUrl('/me-logs');

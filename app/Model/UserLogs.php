@@ -1,8 +1,6 @@
 <?php
 namespace App\Model;
 
-use App\Model\UserLog;
-
 /**
  *
  */
@@ -25,7 +23,7 @@ class UserLogs extends \ZendModel
      *  @param  row
      *  @return TahScan object
      */
-    public function mapRow( $row )
+    public function mapRow($row)
     {
         $object = new UserLog();
         $object->setId         ( $row['id']                      );
@@ -117,24 +115,20 @@ class UserLogs extends \ZendModel
      *  @param  option array
      *  @return objects or empty array
      */
-    public function findUserLogs($opt=[])
+    public function findUserLogs(Array $values, $options=[])
     {
-        $opt += [
-            '_order'        => 'id,DESC',
-            '_page'         => 1,
-            '_itemsPerPage' => conf('db.per_page')
-        ];
-        return $this->findUserLogsReal( $opt );
+        // $options += [];
+        return $this->findUserLogsReal($values, $options);
     }
 
     /**
      *  get count by "findUserLogs" method
      *  @return int
      */
-    public function numFindUserLogs($opt=[])
+    public function numFindUserLogs($values, $options=[])
     {
-        // $opt += [];
-        return $this->findUserLogsReal($opt, true);
+        // $options += [];
+        return $this->findUserLogsReal($values, $options, true);
     }
 
     /**
@@ -144,60 +138,46 @@ class UserLogs extends \ZendModel
      *
      *  @return objects or record total
      */
-    protected function findUserLogsReal($opt=[], $isGetCount=false)
+    protected function findUserLogsReal(Array $values, $opt=[], $isGetCount=false)
     {
         // validate 欄位 白名單
-        $list = [
-            'fields' => [
-                'id'        => 'id',
-                'userId'    => 'user_id',
-                'actions'   => 'actions',
-                'content'   => 'content',
-                'ip'        => 'ip',
-                'ipn'       => 'ipn',
-            ],
-            'option' => [
-                '_order',
-                '_page',
-                '_itemsPerPage',
-                '_serverType',
-            ]
+        $map = [
+            'id'        => 'id',
+            'userId'    => 'user_id',
+            'actions'   => 'actions',
+            'content'   => 'content',
+            'ip'        => 'ip',
+            'ipn'       => 'ipn',
         ];
-
-        \ZendModelWhiteListHelper::validateFields($opt, $list);
-        \ZendModelWhiteListHelper::filterOrder($opt, $list);
-        \ZendModelWhiteListHelper::fieldValueNullToEmpty($opt);
-
+        \ZendModelWhiteListHelper::perform($values, $map, $opt);
         $select = $this->getDbSelect();
 
         //
-        $field = $list['fields'];
-
-        if ( isset($opt['id']) ) {
-            $select->where->and->equalTo( $field['id'], $opt['id'] );
+        if ( isset($values['id']) ) {
+            $select->where->and->equalTo( $map['id'], $values['id'] );
         }
-        if ( isset($opt['userId']) ) {
-            $select->where->and->equalTo( $field['userId'], $opt['userId'] );
+        if ( isset($values['userId']) ) {
+            $select->where->and->equalTo( $map['userId'], $values['userId'] );
         }
-        if ( isset($opt['actions']) ) {
-            $items = explode(',', $opt['actions']);
+        if ( isset($values['actions']) ) {
+            $items = explode(',', $values['actions']);
             // 包裏 Zend Db nest()
-            \ZendModelWhiteListHelper::nestLikeOr( $select, $field['actions'], $items );
+            \ZendModelWhiteListHelper::nestLikeOr( $select, $map['actions'], $items );
         }
-        if ( isset($opt['content']) ) {
-            $select->where->and->like( $field['content'], '%'.$opt['content'].'%' );
+        if ( isset($values['content']) ) {
+            $select->where->and->like( $map['content'], '%'.$values['content'].'%' );
         }
-        if ( isset($opt['ip']) ) {
-            $select->where->and->like( $field['ip'], '%'.$opt['ip'].'%' );
+        if ( isset($values['ip']) ) {
+            $select->where->and->like( $map['ip'], '%'.$values['ip'].'%' );
         }
-        if ( isset($opt['ipn']) ) {
-            $select->where->and->equalTo( $field['ipn'], $opt['ipn'] );
+        if ( isset($values['ipn']) ) {
+            $select->where->and->equalTo( $map['ipn'], $values['ipn'] );
         }
 
         if ( !$isGetCount ) {
-            return $this->findObjects( $select, $opt );
+            return $this->findObjects($select, $opt);
         }
-        return $this->numFindObjects( $select );
+        return $this->numFindObjects($select, $opt);
     }
 
     /* ================================================================================

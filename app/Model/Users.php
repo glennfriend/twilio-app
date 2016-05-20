@@ -1,8 +1,9 @@
 <?php
 namespace App\Model;
 
-use App\Model\User as User;
-
+/**
+ *
+ */
 class Users extends \ZendModel
 {
     const CACHE_USER = 'cache_user';
@@ -225,122 +226,100 @@ class Users extends \ZendModel
      *  @param  option array
      *  @return objects or empty array
      */
-    public function findUsers( array $opt )
+    public function findUsers(Array $values, $options=[])
     {
-        $opt += array(
-            '_order'        => 'id,DESC',
-            '_page'         => 1,
-            '_itemsPerPage' => conf('db.per_page')
-        );
-        return $this->findUsersReal( $opt );
+        $options += [
+            'serverType' => \ZendModel::SERVER_TYPE_MASTER,
+            'page' => 1,
+            'order' => [
+                'id' => 'DESC',
+            ],
+        ];
+        return $this->findUsersReal($values, $options);
     }
 
     /**
      *  get count by "findUsers" method
      *  @return int
      */
-    public function numFindUsers( array $opt )
+    public function numFindUsers($values, $options=[])
     {
-        // $opt += array();
-        return $this->findUsersReal( $opt, true );
+        $options += [
+            'serverType' => \ZendModel::SERVER_TYPE_MASTER,
+        ];
+        return $this->findUsersReal($values, $options, true);
     }
 
 
     /**
-     *  findUsers option
+     *  find Users and count
+     *
+     *  find 處理邏輯
+     *      字串比對 name = "value"
+     *          "name" => "john"    => 只顯示名字完全比對為 "john" 的資料
+     *          "name" => ""        => 顯示沒有名字的資料
+     *          "name" => null      => 略過欄位, 資料的比對
+     *
+     *      字串搜尋 name like %value%
+     *          "name" => "jonh"    => 只要名字中有 john 就顯示該資料
+     *          "name" => ""        => 全部顯示 --> like %%
+     *          "name" => null      => 略過欄位, 資料的比對
+     *
      *  @return objects or record total
      */
-    protected function findUsersReal( $opt=array(), $isGetCount=false )
+    private function findUsersReal(Array $values, $opt=[], $isGetCount=false)
     {
         // validate 欄位 白名單
-        $list = array(
-            'fields' => [
-                'id'        => 'id',
-                'account'   => 'account',
-                'roleIds'   => 'role_ids',
-                'email'     => 'email',
-                'status'    => 'status',
-            ],
-            'option' => [
-                '_order',
-                '_page',
-                '_itemsPerPage',
-                '_serverType',
-            ]
-        );
-
-        \ZendModelWhiteListHelper::validateFields($opt, $list);
-        \ZendModelWhiteListHelper::filterOrder($opt, $list);
-        \ZendModelWhiteListHelper::fieldValueNullToEmpty($opt);
-
+        $map = [
+            'id'        => 'id',
+            'account'   => 'account',
+            'roleIds'   => 'role_ids',
+            'email'     => 'email',
+            'status'    => 'status',
+        ];
+        \ZendModelWhiteListHelper::perform($values, $map, $opt);
         $select = $this->getDbSelect();
 
         //
-        $field = $list['fields'];
-
-        if ( isset($opt['account']) ) {
-            $select->where->and->equalTo( $field['account'], $opt['account'] );
+        if (isset($values['account'])) {
+            $select->where->and->equalTo( $values['account'], $values['account'] );
         }
-        if ( isset($opt['email']) ) {
-            $select->where->and->equalTo( $field['email'], $opt['email'] );
+        if (isset($values['email'])) {
+            $select->where->and->equalTo( $values['email'], $values['email'] );
         }
-        if ( isset($opt['status']) ) {
-            $select->where->and->equalTo( $field['status'], $opt['status'] );
+        if (isset($values['status'])) {
+            $select->values->and->equalTo( $values['status'], $values['status'] );
         }
 
-        if ( !$isGetCount ) {
-            return $this->findObjects( $select, $opt );
+        if (!$isGetCount) {
+            return $this->findObjects($select, $opt);
         }
-        return $this->numFindObjects( $select, $opt );
-    }
-
-    /**
-     *  NOTE: 建議停用該程式, 改用 getUsersByRuleName()
-     *
-     *  Get user objects by rule id
-     *  @return array
-     */
-    public static function getUsersByRule($ruleId)
-    {
-        $options = array_filter(array(
-            'status' => USER::STATUS_OPEN,
-            '_order' => 'id,asc',
-            '_page'  => -1,
-        ));
-        $users = new Users();
-        $myUsers  = $users->findUsers( $options );
-        foreach ($myUsers as $key => $user) {
-            $roleInfos = $user->getProperty('roleInfo');
-            $isTarget = false;
-            foreach ($roleInfos as $roleInfo) {
-                if ($roleInfo['id'] == $ruleId) {
-                    $isTarget = true;
-                }
-            }
-            if (!$isTarget) {
-                unset($myUsers[$key]);
-            }
-        }
-        return $myUsers;
+        return $this->numFindObjects($select, $opt);
     }
 
     /**
      *  get users by rule name
+     *  原始程式經過修改過後, 這裡也要做一些調整!!
      *
      *  @param string - rule name string
      *  @return users array
      */
+    /*
     public static function getUsersByRuleName($ruleName)
     {
+        $fields = array_filter([
+            'status' => USER::STATUS_OPEN,
+        ]);
         $options = [
-            'status' => User::STATUS_OPEN,
-            '_order' => 'id,asc',
-            '_page'  => -1,
+            'page'  => -1,
+            'order' => [
+                'id' => 'ASC',
+            ],
         ];
 
         $allowUsers = [];
         $users      = new Users();
-        $myUsers    = $users->findUsers( $options );
+        $myUsers    = $users->findUsers($fields, $options);
         foreach ($myUsers as $key => $user) {
             $roleInfos = $user->getProperty('roleInfo');
             foreach ($roleInfos as $roleInfo) {
@@ -352,6 +331,7 @@ class Users extends \ZendModel
         }
         return $allowUsers;
     }
+    */
 
 }
 
