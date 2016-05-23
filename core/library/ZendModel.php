@@ -366,7 +366,7 @@ class ZendModel
      * @param key
      * @return int, affected row count
      */
-    protected function deleteObject( $key )
+    protected function deleteObject($key)
     {
         $delete = new Zend\Db\Sql\Delete( $this->tableName );
         $delete->where(array( $this->pk => $key));
@@ -381,17 +381,16 @@ class ZendModel
     /**
      *  資料從 object 寫入到 database 之前要做資料轉換的動作
      */
-    protected function objectToArray( $object )
+    protected function objectToArray($object)
     {
         $data = array();
-        foreach ( $object->getTableDefinition() as $key => $item ) {
+        foreach ($object->getTableDefinition() as $field => $item) {
+            $type       = $item['type'];
+            $varName    = DaoHelper::convertUnderlineToVarName($field);
+            $method     = 'get' . strtoupper($varName[0]) . substr($varName, 1);
+            $value      = $object->$method();
 
-            $type   = $item['type'];
-            $field  = $item['field'];
-            $method = $item['storage'];
-            $value  = $object->$method();
-
-            if( is_object($value) || is_array($value) ) {
+            if (is_object($value) || is_array($value)) {
                 $value = serialize($value);
             }
 

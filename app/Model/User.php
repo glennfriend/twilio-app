@@ -31,59 +31,41 @@ class User extends \BaseObject
             'id' => array(
                 'type'    => 'integer',
                 'filters' => array('intval'),
-                'storage' => 'getId',
-                'field'   => 'id',
             ),
             'account' => array(
                 'type'    => 'string',
                 'filters' => array('strip_tags','trim'),
-                'storage' => 'getAccount',
-                'field'   => 'account',
             ),
             'password' => array(
                 'type'    => 'string',
                 'filters' => array(),
-                'storage' => 'getPassword',
-                'field'   => 'password',
             ),
-            'roleNames' => array(
+            'role_names' => array(
                 'type'    => 'string',
                 'filters' => array('strip_tags','trim'),
-                'storage' => 'getRoleNames',
-                'field'   => 'role_names',
             ),
             'email' => array(
                 'type'    => 'string',
                 'filters' => array('strip_tags','trim'),
-                'storage' => 'getEmail',
-                'field'   => 'email',
             ),
             'status' => array(
                 'type'    => 'integer',
                 'filters' => array('intval'),
-                'storage' => 'getStatus',
-                'field'   => 'status',
                 'value'   => User::STATUS_DISABLED,
             ),
-            'createTime' => array(
+            'create_time' => array(
                 'type'    => 'timestamp',
                 'filters' => array('intval'),
-                'storage' => 'getCreateTime',
-                'field'   => 'create_time',
                 'value'   => time(),
             ),
-            'updateTime' => array(
+            'update_time' => array(
                 'type'    => 'timestamp',
                 'filters' => array('intval'),
-                'storage' => 'getUpdateTime',
-                'field'   => 'update_time',
                 'value'   => time(),
             ),
             'properties' => array(
                 'type'    => 'string',
                 'filters' => array('arrayval'), // 特殊的 object filter, 通常會在這裡加新的 method
-                'storage' => 'getProperties',
-                'field'   => 'properties',
             ),
         );
     }

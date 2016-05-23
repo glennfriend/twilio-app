@@ -112,9 +112,6 @@ class Home extends AdminPageController
         ]);
         $options = [
             'page' => $page,
-            'order' => [
-                'userId' => 'desc',
-            ],
         ];
         $userLogs   = new UserLogs();
         $myUserLogs = $userLogs->findUserLogs($fields, $options);

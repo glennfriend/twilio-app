@@ -117,7 +117,11 @@ class UserLogs extends \ZendModel
      */
     public function findUserLogs(Array $values, $options=[])
     {
-        // $options += [];
+        $options += [
+            'order' => [
+                'id' => 'DESC',
+            ],
+        ];
         return $this->findUserLogsReal($values, $options);
     }
 

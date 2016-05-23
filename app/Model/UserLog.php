@@ -28,51 +28,37 @@ class UserLog extends \BaseObject
      */
     public static function getTableDefinition()
     {
-        return array(
-            'id' => array(
+        return [
+            'id' => [
                 'type'    => 'integer',
                 'filters' => array('intval'),
-                'storage' => 'getId',
-                'field'   => 'id',
-            ),
-            'userId' => array(
+            ],
+            'user_id' => [
                 'type'    => 'integer',
                 'filters' => array('intval'),
-                'storage' => 'getUserId',
-                'field'   => 'user_id',
-            ),
-            'actions' => array(
+            ],
+            'actions' => [
                 'type'    => 'string',
                 'filters' => array('strip_tags','trim'),
-                'storage' => 'getActions',
-                'field'   => 'actions',
-            ),
-            'content' => array(
+            ],
+            'content' => [
                 'type'    => 'string',
                 'filters' => array('strip_tags','trim'),
-                'storage' => 'getContent',
-                'field'   => 'content',
-            ),
-            'ip' => array(
+            ],
+            'ip' => [
                 'type'    => 'string',
                 'filters' => array('strip_tags','trim'),
-                'storage' => 'getIp',
-                'field'   => 'ip',
-            ),
-            'ipn' => array(
+            ],
+            'ipn' => [
                 'type'    => 'integer',
                 'filters' => array(),
-                'storage' => 'getIpn',
-                'field'   => 'ipn',
-            ),
-            'createTime' => array(
+            ],
+            'create_time' => [
                 'type'    => 'timestamp',
                 'filters' => array('dateval'),
-                'storage' => 'getCreateTime',
-                'field'   => 'create_time',
                 'value'   => time(),
-            ),
-        );
+            ],
+        ];
     }
 
     /**

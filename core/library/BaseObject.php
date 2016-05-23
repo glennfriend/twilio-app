@@ -21,12 +21,12 @@ class BaseObject
     public function resetValue()
     {
         $this->__sleep();
-        foreach( $this->getTableDefinition() as $key => $item ) {
-            if( isset($item['value']) ) {
-                $this->_baseSet( $key, $item['value'] );
+        foreach ($this->getTableDefinition() as $field => $item) {
+            if (isset($item['value'])) {
+                $this->_baseSet($field, $item['value']);
             }
             else {
-                $this->_baseSet( $key, null );
+                $this->_baseSet($field, null);
             }
         }
     }
@@ -63,8 +63,8 @@ class BaseObject
     public function __call($name, $args)
     {
         // disabled methods
-        foreach( $this->getDisabledMethods() as $disabledMethodName ) {
-            if ( $name === $disabledMethodName ) {
+        foreach ($this->getDisabledMethods() as $disabledMethodName) {
+            if ($name === $disabledMethodName) {
                 throw new Exception("Disable {$disabledMethodName}() method");
             }
         }
@@ -87,27 +87,29 @@ class BaseObject
         }
 
         // getting and setting
-        if ( 'get'===substr($name,0,3) ) {
+        if ('get'===substr($name,0,3)) {
 
-            if ( $args ) {
+            if ($args) {
                 throw new Exception("{$name}() getting arguments error at BaseObject");
             }
-            foreach( $tableDefinition as $key => $item ) {
-                if ( 'get'.ucfirst($key) === $name ) {
-                    return $this->_baseGet($key);
+            foreach ($tableDefinition as $field => $item) {
+                $getName = 'get' . ucfirst(DaoHelper::convertUnderlineToVarName($field));
+                if ($getName === $name) {
+                    return $this->_baseGet($field);
                 }
             }
             throw new Exception("{$name}() getting method error at BaseObject");
 
         }
-        elseif ( 'set'===substr($name,0,3) ) {
+        elseif ('set'===substr($name,0,3)) {
 
-            if ( 1 != count($args) ) {
+            if (1 !== count($args)) {
                 throw new Exception("{$name}() setting arguments error at BaseObject");
             }
-            foreach( $tableDefinition as $key => $item ) {
-                if ( 'set'.ucfirst($key) === $name ) {
-                    $this->_baseSet($key, $args[0]);
+            foreach ($tableDefinition as $field => $item) {
+                $setName = 'set' . ucfirst(DaoHelper::convertUnderlineToVarName($field));
+                if ($setName === $name) {
+                    $this->_baseSet($field, $args[0]);
                     return;
                 }
             }
@@ -123,25 +125,22 @@ class BaseObject
     /**
      *  get method
      */
-    private function _baseGet($key)
+    private function _baseGet($field)
     {
-        $fields = $this->getTableDefinition();
-        $fieldName = $fields[$key]['field'];
-        return $this->store[ $fieldName ];
+        return $this->store[$field];
     }
 
     /**
      *  set method
      */
-    private function _baseSet($key, $value)
+    private function _baseSet($field, $value)
     {
         $fields = $this->getTableDefinition();
-        $fieldName = $fields[$key]['field'];
-        $this->store[ $fieldName ] = $value;
+        $this->store[$field] = $value;
 
-        foreach( $fields[$key]['filters'] as $functionName ) {
+        foreach( $fields[$field]['filters'] as $functionName ) {
             $method = 'filter_' . $functionName;
-            $this->store[ $fieldName ] = $this->$method( $this->store[ $fieldName ] );
+            $this->store[$field] = $this->$method( $this->store[$field]);
         }
     }
 
@@ -294,6 +293,3 @@ class BaseObject
     }
 
 }
-
-
-

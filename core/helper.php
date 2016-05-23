@@ -109,6 +109,24 @@ function cc()
 // --------------------------------------------------------------------------------
 
 /**
+ *  linux console 版本的 pr()
+ *  NOTE: 記得定時清理該內容
+ *  使用方式
+ *      -> tail -F var/out.log
+ *
+ */
+function out($data)
+{
+    if (is_object($data) || is_array($data)) {
+        $data = print_r($data, true);
+    }
+    else {
+        $data .= "\n";
+    }
+    file_put_contents( conf('app.path') . '/var/out.log', $data, FILE_APPEND);
+}
+
+/**
  *  show message, can write to log
  */
 function show($data, $writeLog=false)
