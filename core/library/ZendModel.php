@@ -394,7 +394,7 @@ class ZendModel
                 $value = serialize($value);
             }
 
-            switch ( $type ) {
+            switch ($type) {
                 case 'datetime':
                 case 'timestamp':
                     $value = date('Y-m-d H:i:s', (int) $value);

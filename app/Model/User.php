@@ -21,10 +21,9 @@ class User extends \BaseObject
     public static function getTableDefinition()
     {
         /*
-            變數名稱 =>
+            field 欄位 => 資料庫欄位
                 type    格式 => 文字/數字/浮點數字/日期
-                filters 過濾 => _filter_ + method
-                field   欄位 => 資料庫欄位
+                filters 過濾 => 請參閱 "App\Model\Filter" folder 下的 class
                 value   值   => 預設值
         */
         return array(
@@ -34,7 +33,7 @@ class User extends \BaseObject
             ),
             'account' => array(
                 'type'    => 'string',
-                'filters' => array('strip_tags','trim'),
+                'filters' => array('strip_tags', 'trim'),
             ),
             'password' => array(
                 'type'    => 'string',
@@ -42,11 +41,11 @@ class User extends \BaseObject
             ),
             'role_names' => array(
                 'type'    => 'string',
-                'filters' => array('strip_tags','trim'),
+                'filters' => array('strip_tags', 'trim'),
             ),
             'email' => array(
                 'type'    => 'string',
-                'filters' => array('strip_tags','trim'),
+                'filters' => array('strip_tags', 'trim'),
             ),
             'status' => array(
                 'type'    => 'integer',
