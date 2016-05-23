@@ -8,7 +8,6 @@ $baseDir = dirname($vendorDir);
 return array(
     'BaseObject' => $baseDir . '/../core/library/BaseObject.php',
     'CommandLine' => $vendorDir . '/pwfisher/command-line-php/CommandLine.php',
-    'ConfigManager' => $baseDir . '/../core/library/ConfigManager.php',
     'Nette\\ArgumentOutOfRangeException' => $vendorDir . '/nette/utils/src/Utils/exceptions.php',
     'Nette\\DeprecatedException' => $vendorDir . '/nette/utils/src/Utils/exceptions.php',
     'Nette\\DirectoryNotFoundException' => $vendorDir . '/nette/utils/src/Utils/exceptions.php',
