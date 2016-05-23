@@ -4,6 +4,7 @@ namespace App\Controllers;
 use Bridge\Input;
 use App\Utility\Console\CliManager;
 use App\Utility\Identity\UserManager as UserManager;
+use App\Utility\Project\SlimManager;
 
 /**
  *
@@ -36,7 +37,7 @@ class BaseController
             CliManager::init($argv);
         }
         else {
-            \SlimManager::init($app, $controllerArgs);
+            SlimManager::init($app, $controllerArgs);
             Input::init($controllerArgs);
         }
 

@@ -1,5 +1,6 @@
 <?php
 
+use App\Utility\Project\SlimManager;
 use App\Utility\Config\Config;
 use App\Utility\Console\CliManager;
 use App\Utility\Console\ConsoleHelper;

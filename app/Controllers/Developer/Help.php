@@ -2,6 +2,7 @@
 namespace App\Controllers\Developer;
 
 use App\Controllers\AdminPageController;
+use App\Utility\Project\SlimManager;
 
 /**
  *
@@ -14,7 +15,7 @@ class Help extends AdminPageController
     // --------------------------------------------------------------------------------
     protected function help()
     {
-        $routes = \SlimManager::getRouter()->getRoutes();
+        $routes = SlimManager::getRouter()->getRoutes();
         $urlPrefix = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['SERVER_NAME'];
         $show = [];
         $index = 0;

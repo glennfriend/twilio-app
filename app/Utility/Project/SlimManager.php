@@ -1,4 +1,5 @@
 <?php
+namespace App\Utility\Project;
 
 class SlimManager
 {

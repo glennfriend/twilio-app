@@ -1,5 +1,7 @@
 <?php
 
+use App\Utility\Project\SlimManager;
+
 /**
  *  取得 route 處理之後獲得的參數
  */
