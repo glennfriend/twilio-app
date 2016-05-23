@@ -1,7 +1,8 @@
 <?php
 
-use App\Utility\Console\CliManager as CliManager;
-use App\Utility\Console\ConsoleHelper as ConsoleHelper;
+use App\Utility\Config\Config;
+use App\Utility\Console\CliManager;
+use App\Utility\Console\ConsoleHelper;
 
 // --------------------------------------------------------------------------------
 //  Basic
@@ -31,7 +32,7 @@ function isCli()
  */
 function conf($key)
 {
-    return ConfigManager::get($key);
+    return Config::get($key);
 }
 
 // --------------------------------------------------------------------------------

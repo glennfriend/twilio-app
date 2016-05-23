@@ -1,5 +1,7 @@
 <?php
 
+use App\Utility\Config\Config;
+
 function initialize($basePath)
 {
     // --------------------------------------------------------------------------------
@@ -36,7 +38,7 @@ function initialize($basePath)
     $loadComposer($basePath);
 
     // init config
-    ConfigManager::init( $basePath . '/core/config');
+    Config::init($basePath . '/core/config');
     if ( conf('app.path') !== $basePath ) {
        show('base path setting error!');
        exit;

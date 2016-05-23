@@ -1,9 +1,10 @@
 <?php
+namespace App\Utility\Config;
 
 /**
  *
  */
-class ConfigManager
+class Config
 {
 
     /**
@@ -14,7 +15,7 @@ class ConfigManager
     /**
      *
      */
-    public static function init( $configPath )
+    public static function init($configPath)
     {
         if ( !file_exists($configPath) ) {
             return false;
@@ -33,18 +34,17 @@ class ConfigManager
     }
 
     /**
-     *  同 soft
+     *  同 soft()
      *  如果資料不存在 或是值為 null, 直接顯示錯誤訊息
      *
-     *  @see ConfigManager::get()
      *  @param int|string - $key
      *  @return any
      */
-    public static function get( $key )
+    public static function get($key)
     {
         $value = self::soft($key);
         if ( null === $value ) {
-            throw new Exception("Error: config [{$key}] not found!");
+            throw new \Exception("Error: config [{$key}] not found!");
         }
         return $value;
     }
@@ -81,6 +81,5 @@ class ConfigManager
         }
         return $data;
     }
-
 
 }
