@@ -60,7 +60,7 @@ class CacheFile implements \Bridge\Tie\Cache
      */
     public function flush()
     {
-        $this->cache->deleteAll();
+        $this->cache->flushAll();
     }
 
 }
