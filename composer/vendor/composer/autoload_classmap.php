@@ -54,7 +54,6 @@ return array(
     'Nette\\Utils\\UnknownImageFileException' => $vendorDir . '/nette/utils/src/Utils/exceptions.php',
     'Nette\\Utils\\Validators' => $vendorDir . '/nette/utils/src/Utils/Validators.php',
     'ProjectHelper' => $baseDir . '/../core/library/ProjectHelper.php',
-    'SlimManager' => $baseDir . '/../core/library/SlimManager.php',
     'ZendModel' => $baseDir . '/../core/library/ZendModel.php',
     'ZendModelWhiteListHelper' => $baseDir . '/../core/library/ZendModelWhiteListHelper.php',
 );
