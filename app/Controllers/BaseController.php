@@ -126,16 +126,6 @@ class BaseController
                     ->setProperty('setDb', [new Reference('db')]);  // ??
         */
 
-        // session
-        $di->register('session', 'Bridge\Session');
-        $di->get('session')->init([
-            'sessionPath' => conf('app.path') . '/var/session',
-        ]);
-
-        // log & log folder
-        $di->register('log', 'Bridge\Log')
-           ->addMethodCall('init', ['%app.path%/var']);
-
         // view
         $viewConfig = [
             'view_path' => conf('app.path') . '/resource/views'
@@ -145,10 +135,6 @@ class BaseController
 
         // queue
         // $di->register('queue', 'Bridge\Queue');
-
-        // cache
-        $di->register('cache', 'Bridge\Cache')
-            ->addMethodCall('init', ['%app.path%/var/cache']);
 
         // home url manager
         $di->register('homeUrl', 'App\Utility\Url\HomeUrlManager');

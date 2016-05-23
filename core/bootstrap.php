@@ -58,6 +58,34 @@ function initialize($basePath)
     date_default_timezone_set(conf('app.timezone'));
 
     // --------------------------------------------------------------------------------
+    //  load base DI infromation
+    // --------------------------------------------------------------------------------
+    /**
+     *  load resorce
+     */
+    $loadResource = function($basePath)
+    {
+        $di = di();
+        $di->setParameter('app.path', $basePath);
+
+        // session
+        $di->register('session', 'Bridge\Session');
+        $di->get('session')->init([
+            'sessionPath' => conf('app.path') . '/var/session',
+        ]);
+
+        // log & log folder
+        $di->register('log', 'Bridge\Log')
+           ->addMethodCall('init', ['%app.path%/var']);
+
+        // cache
+        $di->register('cache', 'Bridge\Cache')
+            ->addMethodCall('init', ['%app.path%/var/cache']);
+
+    };
+    $loadResource($basePath);
+
+    // --------------------------------------------------------------------------------
     //  vlidate
     // --------------------------------------------------------------------------------
 
