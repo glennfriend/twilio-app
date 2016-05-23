@@ -138,69 +138,18 @@ class BaseObject
         $fields = $this->getTableDefinition();
         $this->store[$field] = $value;
 
-        foreach( $fields[$field]['filters'] as $functionName ) {
-            $method = 'filter_' . $functionName;
-            $this->store[$field] = $this->$method( $this->store[$field]);
+        foreach ($fields[$field]['filters'] as $functionName) {
+
+            $className = '\\App\\Model\\Filter\\' . $functionName;
+            if (!class_exists($className)) {
+                throw new Exception("DataObject filter class not found: " . $className);
+                exit;
+            }
+            $class = new $className();
+            $value = $class->filter($value);
+            $this->store[$field] = $value;
+
         }
-    }
-
-    /* ------------------------------------------------------------------------------------------------------------------------
-        priveate filter methods
-    ------------------------------------------------------------------------------------------------------------------------ */
-
-    // trim
-    private function filter_trim( $value )
-    {
-        return trim($value);
-    }
-
-    // strip_tags
-    private function filter_strip_tags( $value )
-    {
-        return strip_tags($value);
-    }
-
-    // strtolower
-    private function filter_strtolower( $value )
-    {
-        return strtolower($value);
-    }
-
-    // strtoupper
-    private function filter_strtoupper( $value )
-    {
-        return strtoupper($value);
-    }
-
-    // intval
-    private function filter_intval( $value )
-    {
-        return (int) $value;
-    }
-
-    // floatval
-    private function filter_floatval( $value )
-    {
-        return (float) $value;
-    }
-
-    // filter date int
-    private function filter_dateval( $value )
-    {
-        $value = intval($value);
-        if (!$value) {
-            return 0;
-        }
-        return $value;
-    }
-
-    // 代入值如果不是 array, 會輸出 empty array, 否則就傳回原代入值
-    private function filter_arrayval($value)
-    {
-        if ( is_array($value) ) {
-            return $value;
-        }
-        return array();
     }
 
     /* ------------------------------------------------------------------------------------------------------------------------
