@@ -33,10 +33,13 @@ class UserIdentity
         }
 
         // setting basic config
+        $userIp     = trim(strip_tags($_SERVER['REMOTE_ADDR']));
+        $userAgent  = trim(strip_tags($_SERVER['HTTP_USER_AGENT']));
+
         Session::set('account_id', $user->getId() );
         Session::set(
             'login_user_info_string',
-            $user->getId() .'_'. $_SERVER['REMOTE_ADDR'] .'_'. $_SERVER['HTTP_USER_AGENT']
+            $user->getId() .'_'. $userIp .'_'. $userAgent
         );
 
         // custom setting
