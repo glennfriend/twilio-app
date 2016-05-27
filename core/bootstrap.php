@@ -38,8 +38,16 @@ function initialize($basePath)
     $loadComposer($basePath);
 
     // init config
-    Config::init($basePath . '/core/config');
-    if ( conf('app.path') !== $basePath ) {
+    $errorMessage = Config::init(
+        $basePath . '/core/config',
+        $basePath . '/config.php'
+    );
+    if ($errorMessage) {
+       show('Config Eerror: '. $errorMessage);
+       exit;
+    }
+
+    if (conf('app.path') !== $basePath) {
        show('base path setting error!');
        exit;
     }

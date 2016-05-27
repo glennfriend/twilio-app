@@ -12,11 +12,11 @@ npm-debug.log
 # ------------------------------------------------------------
 #   framework
 # ------------------------------------------------------------
+/config.php
 var/cache/*
 var/error-report/*.txt
 var/session/sess_*
 var/*.log
 var/*.ini
 var/*.txt
-core/config/*.php
 home/media/*
