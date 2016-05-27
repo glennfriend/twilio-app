@@ -10,4 +10,5 @@ $app->get ('/login',    'App\Controllers\PublicPage\Auth:login');
 $app->post('/login',    'App\Controllers\PublicPage\Auth:login');
 $app->get ('/logout',   'App\Controllers\PublicPage\Auth:logout');
 
+$app->get ('/404',      'App\Controllers\PublicPage\Status:show404');
 $app->run();
