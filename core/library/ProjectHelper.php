@@ -1,5 +1,9 @@
 <?php
 use App\Utility\Output\ErrorSupportHelper;
+use App\Utility\Project\SlimManager;
+use Whoops\Run;
+use Whoops\Handler\PrettyPageHandler;
+use Whoops\Handler\JsonResponseHandler;
 
 /**
  *  建立一個 framework 基本的封裝
@@ -13,6 +17,7 @@ class ProjectHelper
     {
         $container = self::buildDefaultJsonContainer();
         $app = new Slim\App($container);
+        self::updateErrorHandler($app);
         return $app;
     }
 
@@ -78,6 +83,35 @@ EOD;
 
             };
         };
+    }
+
+    /**
+     *  use Whoops error handler
+     */
+    private static function updateErrorHandler(Slim\App $app)
+    {
+        if (!isTraining()) {
+            return;
+        }
+
+        if (isCli()) {
+            $handler = new PlainTextHandler();
+        }
+        else {
+            $handler = new PrettyPageHandler();
+        }
+
+        // append custom info
+        // $handler->addDataTable('Custom Info', [
+        //     'User Id' => '?',
+        // ]);
+
+        // change error report to JSON format
+        // $whoops->pushHandler(new JsonResponseHandler);
+
+        $whoops = new Run;
+        $whoops->pushHandler($handler);
+        $whoops->register();
     }
 
 }
