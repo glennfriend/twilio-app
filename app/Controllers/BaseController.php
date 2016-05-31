@@ -3,7 +3,7 @@ namespace App\Controllers;
 
 use Bridge\Input;
 use App\Utility\Console\CliManager;
-use App\Utility\Identity\UserManager as UserManager;
+use App\Utility\Identity\UserManager;
 use App\Utility\Project\SlimManager;
 
 /**
