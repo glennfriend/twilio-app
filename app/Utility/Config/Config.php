@@ -27,10 +27,6 @@ class Config
      */
     public static function init($folderPath, $configFile)
     {
-        error_reporting(E_ALL);
-        ini_set('html_errors','On');
-        ini_set('display_errors','On');
-
         // 一般設定值
         if (!file_exists($folderPath)) {
             return 'config folder not found';
