@@ -2,6 +2,7 @@
     "require" : {
         "pwfisher/command-line-php": "dev-master",
         "nette/mail": "2.2.*",
+        "filp/whoops": "2.1.*",
 
         "doctrine/dbal": "2.5.*",
         "doctrine/migrations": "1.4.*",
