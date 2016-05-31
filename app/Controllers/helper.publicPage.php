@@ -37,9 +37,6 @@ function redirectAdmin($url)
         throw new Exception('Error: Is command-line env');
     }
 
-    if (!$isFullUrl) {
-        $url = di('adminUrl')->CreateUrl($url);
-    }
-
+    $url = di('adminUrl')->createUrl($url);
     return SlimManager::getResponse()->withHeader('Location', $url);
 }
