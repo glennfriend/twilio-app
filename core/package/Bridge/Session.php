@@ -13,9 +13,13 @@ class Session
      */
     public static function init($opt=[])
     {
+        /**
+         *  2h = 2 * 60 * 60 =  7200
+         *  3h = 3 * 60 * 60 = 10800
+         */
         $opt += [
             'sessionPath'   => '',
-            'expire'        => 7200,    // default 2h = 2 * 60 * 60 = 7200
+            'expire'        => 10800,
         ];
 
         if(!$opt['sessionPath']) {
