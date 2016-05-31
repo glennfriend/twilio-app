@@ -10,7 +10,7 @@ function initialize($basePath)
 
     error_reporting(-1);
     ini_set('html_errors','Off');
-    ini_set('display_errors','Off');
+    ini_set('display_errors', 'Off');
 
     /**
      *  load helper function
@@ -54,13 +54,13 @@ function initialize($basePath)
 
     if (isTraining()) {
         error_reporting(E_ALL);
-        ini_set('html_errors','On');
-        ini_set('display_errors','On');
+        ini_set('html_errors', 'On');
+        ini_set('display_errors', 'On');
     }
 
     if (isCli()) {
-        ini_set('html_errors','Off');
-        ini_set('display_errors','Off');
+        ini_set('html_errors', 'Off');
+        ini_set('display_errors', 'Off');
     }
 
     date_default_timezone_set(conf('app.timezone'));
