@@ -1,5 +1,6 @@
 <?php
-use App\Utility\Identity\UserManager as UserManager;
+use Bridge\Session;
+use App\Utility\Identity\UserManager;
 ?>
 <section id="table-user">
 
@@ -26,6 +27,17 @@ use App\Utility\Identity\UserManager as UserManager;
             <tr>
                 <td>Roles</td>
                 <td><?php echo join(", ", $this->authUser->getRoleDescriptions() ); ?></td>
+            </tr>
+            <tr>
+                <td>Login Timeout</td>
+                <td>
+                    <p>
+                        <?php echo date('H:i:s', Session::get('session_expire')); ?> (expire)
+                    </p>
+                    <p>
+                        <?php echo date('H:i:s'); ?> (current)
+                    </p>
+                </td>
             </tr>
         </tbody>
     </table>
