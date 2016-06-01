@@ -10,6 +10,7 @@ class Session
 
     /**
      *  init
+     *  @return boolean true=已經過期, false=未過期
      */
     public static function init($opt=[])
     {
@@ -43,9 +44,11 @@ class Session
         session_start();
 
         $sessionExpire = self::get('session_expire');
+        $isExpire = false;
         if ($sessionExpire) {
             if (time() >= $sessionExpire) {
                 self::destroy();
+                $isExpire = true;
             }
         }
         else {
@@ -53,6 +56,7 @@ class Session
         }
 
         self::set('session_expire', time() + $opt['expire']);
+        return $isExpire;
     }
 
     /* --------------------------------------------------------------------------------

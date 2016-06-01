@@ -69,18 +69,38 @@ function initialize($basePath)
     //  load base DI infromation
     // --------------------------------------------------------------------------------
     /**
-     *  load resorce
+     *  init session
      */
-    $loadResource = function($basePath)
+    $initSession = function($basePath)
     {
         $di = di();
         $di->setParameter('app.path', $basePath);
 
         // session
         $di->register('session', 'Bridge\Session');
-        $di->get('session')->init([
+        $isExpire = $di->get('session')->init([
             'sessionPath' => conf('app.path') . '/var/session',
         ]);
+
+        return $isExpire;
+    };
+    $isExpire = $initSession($basePath);
+
+    // session 過期, 重新導向
+    if ($isExpire) {
+        $redirectUrl = $_SERVER['REQUEST_URI'];
+        echo '<meta http-equiv="refresh" content="3; url='. $redirectUrl .'" />';
+        echo 'Already Expired ...';
+        exit;
+    }
+
+    /**
+     *  load resorce
+     */
+    $loadResource = function($basePath)
+    {
+        $di = di();
+        $di->setParameter('app.path', $basePath);
 
         // log & log folder
         $di->register('log', 'Bridge\Log')
