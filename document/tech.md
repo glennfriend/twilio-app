@@ -1,4 +1,4 @@
-***時間
+##時區
 ```txt
 從 frontend (browser) 傳進 backend (PHP) 的時間, 必須是 UTC 時區
 由 backend 轉為相對應 (PHP環境設定) 的時區
