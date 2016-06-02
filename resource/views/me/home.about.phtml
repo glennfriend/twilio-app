@@ -1,6 +1,7 @@
 <?php
 use Bridge\Session;
 use App\Utility\Identity\UserManager;
+use App\Utility\Datetime\Timezone;
 ?>
 <section id="table-user">
 
@@ -32,10 +33,25 @@ use App\Utility\Identity\UserManager;
                 <td>Login Timeout</td>
                 <td>
                     <p>
-                        <?php echo date('H:i:s', Session::get('session_expire')); ?> (expire)
+                        <b><?php echo Timezone::getSystem(); ?></b>
                     </p>
                     <p>
                         <?php echo date('H:i:s'); ?> (current)
+                    </p>
+                    <p>
+                        <?php echo date('H:i:s', Session::get('session_expire')); ?> (expire)
+                    </p>
+
+                    <hr>
+
+                    <p>
+                        <b>Asia/Taipei</b>
+                    </p>
+                    <p>
+                        <?php echo cc('convertTimezone', time(), 'Asia/Taipei', 'H:i:s'); ?> (current)
+                    </p>
+                    <p>
+                        <?php echo cc('convertTimezone', Session::get('session_expire'), 'Asia/Taipei', 'H:i:s'); ?> (expire)
                     </p>
                 </td>
             </tr>
@@ -48,4 +64,3 @@ use App\Utility\Identity\UserManager;
     if (UserManager::isDebugMode()) {
         pr($_SESSION);
     }
-?>
