@@ -19,7 +19,8 @@ class Version20160517_User_Logs extends AbstractMigration
      */
     public function down(Schema $schema)
     {
-        $schema->dropTable('user_logs');
+        // 不予許 drop table
+        // $schema->dropTable('user_logs');
     }
 
     // --------------------------------------------------------------------------------

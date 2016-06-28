@@ -22,7 +22,7 @@ class Version19990101_1_User_Roles extends AbstractMigration
      */
     public function down(Schema $schema)
     {
-        // $schema->dropTable('user_roles');
+        // 不予許 drop table
     }
 
     // --------------------------------------------------------------------------------

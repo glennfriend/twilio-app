@@ -21,7 +21,7 @@ class Version19990101_2_Users extends AbstractMigration
      */
     public function down(Schema $schema)
     {
-        // 為了資料安全, 這裡不做任何處理
+        // 不予許 drop table
     }
 
     // --------------------------------------------------------------------------------
