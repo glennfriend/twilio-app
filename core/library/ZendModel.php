@@ -475,9 +475,9 @@ class ZendModel
      */
     protected function findObjects(Zend\Db\Sql\Select $select, $opt=[])
     {
-        $orderBy      = isset($opt['orderString']) ? $opt['orderString'] : '' ;
-        $page         = isset($opt['page'])        ? $opt['page']        : 1  ;
-        $itemsPerPage = isset($opt['perPage'])     ? $opt['perPage']     : conf('db.per_page');
+        $orderBy      = isset($opt['orderString']) ?       $opt['orderString'] : '' ;
+        $page         = isset($opt['page'])        ? (int) $opt['page']        : 1  ;
+        $itemsPerPage = isset($opt['perPage'])     ? (int) $opt['perPage']     : conf('db.per_page');
 
         $serverType = ZendModel::SERVER_TYPE_MASTER;
         if (isset($opt['serverType']) && ZendModel::SERVER_TYPE_SLAVE===$opt['serverType']) {
