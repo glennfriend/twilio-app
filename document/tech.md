@@ -1,11 +1,12 @@
-##時區
+##Time (時間) & Timezone (時區)
 ```txt
-從 frontend (browser) 傳進 backend (PHP) 的時間, 必須是 UTC 時區
-由 backend 轉為相對應 (PHP環境設定) 的時區
-PHP 程式的時區可以自由設定
-backend 傳出 時間 給 frontend 時, 必須轉為 UTC 時區
+如果有跨國的時區問題, 請仔細思考你想要怎麼著手
 
-傳入與輸出規則:
-格式: date int
-時區: UTC
+如果要傳入 timestamp 時間戳記
+那麼你必須了解它一定是 UTC 時區
+timestamp === UTC
+
+如果要傳入已經處理好的格式 yyyy-mm-dd
+那麼就照這個 "string" 存入資料庫
+不要另外做轉換
 ```

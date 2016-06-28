@@ -15,6 +15,12 @@ migration
     使用的工具:
         Doctrine
 
+必須遵守的規定
+
+    migration 的 down() 程式
+    不予許任何 drop 的敘述語句
+    以避免誤執行兩次 migration rollback 的時候將有資料的 table 移除
+
 
 文件參考:
 
